@@ -9,6 +9,14 @@ void main(){
 
   // cout inline comment with block comment /* main */  
   int sum;
-  sum = 35 + 400;
+  sum = 14 + 518;
   cout << sum;
+  +
+  -
+  *
+  /
+  <
+  <=
+  >
+  >=
 }
