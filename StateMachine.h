@@ -22,6 +22,8 @@ enum MachineState {
     MULTIPLY_STATE,
     DIVIDE_STATE,
     EQUALS_STATE,
+    // NOT_STATE,
+    // NOTEQUAL_STATE,
 
     LESS_THEN_STATE,
     GREATER_THEN_STATE,
@@ -40,7 +42,6 @@ enum CharacterType {
     DIGIT_CHAR, 
     WHITESPACE_CHAR, 
     FORWARD_SLASH_CHAR,
-    ASTERISK_CHAR,
 
     LEFT_PAREN_CHAR,
     RIGHT_PAREN_CHAR,
@@ -53,6 +54,7 @@ enum CharacterType {
     PLUS_CHAR,
     MINUS_CHAR,
     EQUALS_CHAR,
+    MULTIPLY_CHAR,
 
     LESS_THEN_CHAR,
     GREATER_THEN_CHAR,

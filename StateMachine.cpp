@@ -31,26 +31,27 @@ StateMachineClass::StateMachineClass(){
         this->mLegalMoves[LINE_COMMENT_STATE][s] = LINE_COMMENT_STATE;
     this->mLegalMoves[LINE_COMMENT_STATE][NEWLINE_CHAR] = START_STATE;
     // block comments
-    this->mLegalMoves[DIVIDE_STATE][ASTERISK_CHAR] = BLOCK_COMMENT_STATE;
+    this->mLegalMoves[DIVIDE_STATE][MULTIPLY_CHAR] = BLOCK_COMMENT_STATE;
     for (int s = 0; s < LAST_CHAR; s++)
     {
         this->mLegalMoves[BLOCK_COMMENT_STATE][s] = BLOCK_COMMENT_STATE;
     }
-    this->mLegalMoves[BLOCK_COMMENT_STATE][ASTERISK_CHAR] = BLOCK_COMMENT_ENDING_STATE;
+    this->mLegalMoves[BLOCK_COMMENT_STATE][MULTIPLY_CHAR] = BLOCK_COMMENT_ENDING_STATE;
     for (int s = 0; s < LAST_CHAR; s++)
     {
         this->mLegalMoves[BLOCK_COMMENT_ENDING_STATE][s] = BLOCK_COMMENT_STATE;
     }
-    this->mLegalMoves[BLOCK_COMMENT_ENDING_STATE][ASTERISK_CHAR] = BLOCK_COMMENT_ENDING_STATE;
+    this->mLegalMoves[BLOCK_COMMENT_ENDING_STATE][MULTIPLY_CHAR] = BLOCK_COMMENT_ENDING_STATE;
     this->mLegalMoves[BLOCK_COMMENT_ENDING_STATE][FORWARD_SLASH_CHAR] = START_STATE;
-    this->mLegalMoves[START_STATE][ASTERISK_CHAR] = MULTIPLY_STATE;
+    this->mLegalMoves[START_STATE][MULTIPLY_CHAR] = MULTIPLY_STATE;
     this->mLegalMoves[MULTIPLY_STATE][EQUALS_CHAR] = MULTIPLY_STATE;
     this->mLegalMoves[START_STATE][LESS_THEN_CHAR] = LESS_THEN_STATE;
     this->mLegalMoves[LESS_THEN_STATE][EQUALS_CHAR] = LESS_EQUAL_STATE;
     this->mLegalMoves[LESS_THEN_STATE][LESS_THEN_CHAR] = INSERTION_STATE;
     this->mLegalMoves[START_STATE][GREATER_THEN_CHAR] = GREATER_THEN_STATE;
     this->mLegalMoves[GREATER_THEN_STATE][EQUALS_CHAR] = GREATER_EQUAL_STATE;
-    // this->mLegalMoves[GREATER_THEN_STATE][GREATER_THEN_CHAR] = ??
+    // this->mLegalMoves[NOT_STATE][EQUALS_CHAR] = NOT_EQUAL_STATE;
+
     this->mLegalMoves[START_STATE][SEMICOLON_CHAR] = SEMICOLON_STATE;
     this->mLegalMoves[INTEGER_STATE][DIGIT_CHAR] = INTEGER_STATE;
     this->mLegalMoves[IDENTIFIER_STATE][DIGIT_CHAR] = IDENTIFIER_STATE;
@@ -72,6 +73,8 @@ StateMachineClass::StateMachineClass(){
     this->mCorrespondingTokenTypes[GREATER_THEN_STATE] = GREATER_TOKEN;
     this->mCorrespondingTokenTypes[GREATER_EQUAL_STATE] = GREATER_EQUAL_TOKEN;
     this->mCorrespondingTokenTypes[EQUALS_STATE] = EQUAL_TOKEN;
+    // this->mCorrespondingTokenTypes[NOT_EQUAL_STATE] = NOTEQUAL_TOKEN;
+
     this->mCorrespondingTokenTypes[INSERTION_STATE] = INSERTION_TOKEN;
     this->mCorrespondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
     this->mCorrespondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
@@ -115,20 +118,20 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType & p
             case '+':
                 charType = PLUS_CHAR;
                 break;
+            case '-':
+                charType = MINUS_CHAR;
+                break;
+            case '*':
+                charType = MULTIPLY_CHAR;
+                break;
+            case '/':
+                charType = FORWARD_SLASH_CHAR;
+                break;
             case '<':
                 charType = LESS_THEN_CHAR;
                 break;
             case '>':
                 charType = GREATER_THEN_CHAR;
-                break;
-            case '-':
-                charType = MINUS_CHAR;
-                break;
-            case '*':
-                charType = ASTERISK_CHAR;
-                break;
-            case '/':
-                charType = FORWARD_SLASH_CHAR;
                 break;
             case EOF:
                 charType = ENDFILE_CHAR;
