@@ -33,6 +33,7 @@ TokenClass ScannerClass::getNextToken()
     do
     {
         nextChar = this->mFin.get();
+        // MSG("nextChar: " << nextChar);
         state = sm.UpdateState(nextChar, type);
         lexeme += nextChar;
         if (state == START_STATE)
