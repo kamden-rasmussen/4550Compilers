@@ -1,5 +1,5 @@
-main: main.o token.o scanner.o statemachine.o symbol.o
-	g++ -o main main.o token.o scanner.o statemachine.o symbol.o
+main: main.o token.o scanner.o statemachine.o symbol.o node.o
+	g++ -o main main.o token.o scanner.o statemachine.o symbol.o node.o
 
 main.o: main.cpp
 	gcc -c main.cpp
@@ -15,3 +15,6 @@ statemachine.o: statemachine.cpp
 
 symbol.o: symbol.cpp
 	gcc -c symbol.cpp
+
+node.o: node.cpp
+	gcc -c node.cpp
