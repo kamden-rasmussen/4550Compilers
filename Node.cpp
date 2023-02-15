@@ -5,11 +5,11 @@ Node::~Node(){
 }
 
 StatementNode::StatementNode(){
-    MSG("Creating StatementNode");
+    // MSG("Creating StatementNode");
 }
 
 StatementNode::~StatementNode(){
-    MSG("Destroying StatementNode");
+    // MSG("Destroying StatementNode");
 }
 
 StartNode::StartNode(ProgramNode *programNode){
@@ -90,11 +90,11 @@ CoutStatementNode::~CoutStatementNode(){
 }
 
 ExpressionNode::ExpressionNode(){
-    MSG("Creating ExpressionNode");
+    // MSG("Creating ExpressionNode");
 }
 
 ExpressionNode::~ExpressionNode(){
-    MSG("Destroying ExpressionNode");
+    // MSG("Destroying ExpressionNode");
 }
 
 int ExpressionNode::Evaluate(){
@@ -119,6 +119,11 @@ int IdentifierNode::GetIndex(){
 
 IntegerNode::IntegerNode(int value){
     this->value = value;
+    MSG("Creating IntegerNode");
+}
+
+IntegerNode::~IntegerNode(){
+    MSG("Destroying IntegerNode");
 }
 
 int IntegerNode::Evaluate(){
@@ -128,16 +133,21 @@ int IntegerNode::Evaluate(){
 BinaryOperatorNode::BinaryOperatorNode(ExpressionNode *left, ExpressionNode *right){
     this->left = left;
     this->right = right;
-    MSG("Creating BinaryOperatorNode");
+    // MSG("Creating BinaryOperatorNode");
 }
 
 BinaryOperatorNode::~BinaryOperatorNode(){
     delete left;
     delete right;
-    MSG("Destroying BinaryOperatorNode");
+    // MSG("Destroying BinaryOperatorNode");
 }
 
 PlusNode::PlusNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating PlusNode");
+}
+
+PlusNode::~PlusNode(){
+    MSG("Destroying PlusNode");
 }
 
 int PlusNode::Evaluate(){

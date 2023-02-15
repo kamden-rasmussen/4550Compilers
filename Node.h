@@ -92,13 +92,14 @@ class CoutStatementNode : public StatementNode{
 class ExpressionNode{
     public:
         ExpressionNode();
-        ~ExpressionNode();
+        virtual ~ExpressionNode();
         virtual int Evaluate();
 };
 
 class IntegerNode : public ExpressionNode{
     public:
         IntegerNode(int value);
+        ~IntegerNode();
         int Evaluate();
     private:
         int value;
@@ -127,5 +128,6 @@ class BinaryOperatorNode : public ExpressionNode{
 class PlusNode : public BinaryOperatorNode{
     public:
         PlusNode(ExpressionNode *left, ExpressionNode *right);
+        ~PlusNode();
         int Evaluate();
 };
