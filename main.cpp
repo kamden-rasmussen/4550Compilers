@@ -2,6 +2,7 @@
 #include "Token.h"
 #include "Symbol.h"
 #include "Node.h"
+#include "Parser.h"
 
 void testToken(){
     TokenType tt = VOID_TOKEN;
@@ -15,7 +16,7 @@ void testScanner(){
     ScannerClass scanner("test.c");
     TokenType tokenType;
     do {
-        TokenClass token = scanner.getNextToken();
+        TokenClass token = scanner.GetNextToken();
         cout << scanner.getLineNumber() << " " << token << endl;
         tokenType = token.GetTokenType();
     } while (tokenType != ENDFILE_TOKEN);
@@ -72,10 +73,19 @@ void testNodes(){
     delete s;
 }
 
+void testParser(){
+    
+    ScannerClass scanner("test2.c");
+    SymbolTableClass symbolTable;
+    ParserClass parser(&scanner, &symbolTable);
+    parser.Start();
+}
+
 int main(){
     // testToken();
     // testScanner();
     // testSymbol();
-    testNodes();
+    // testNodes();
+    testParser();
     return 0;
 }

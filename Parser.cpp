@@ -22,6 +22,7 @@ ParserClass::~ParserClass() {
 // <CoutStatement> → COUT INSERTION <Expression> SEMICOLON 
 
 void ParserClass::Start(){
+    MSG("Starting Parser");
     Program();
     Match(ENDFILE_TOKEN);
 }
@@ -35,57 +36,64 @@ void ParserClass::Program() {
 }
 
 void ParserClass::Block() {
+    MSG("Opening Block");
     Match(LEFT_CURLY_TOKEN);
     StatementGroup();
     Match(RIGHT_CURLY_TOKEN);
+    MSG("Closing Block");
 }
 
 void ParserClass::StatementGroup() {
-    TokenType tt = mScanner->PeekNextToken().GetTokenType();
-    if(tt == INT_TOKEN)
-    {
-        DeclarationStatement();
-        StatementGroup();
-    }
-    else if(tt == IDENTIFIER_TOKEN)
-    {
-        AssignmentStatement();
-        StatementGroup();
-    }
-    else if(tt == COUT_TOKEN)
-    {
-        CoutStatement();
-        StatementGroup();
-    }
-    else if(tt == LEFT_CURLY_TOKEN)
-    {
-        Block();
-        StatementGroup();
-    }
-    else
-    {
-        return;
+    MSG("Opening StatementGroup");
+    while(true) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if(tt == INT_TOKEN)
+        {
+            DeclarationStatement();
+        }
+        else if(tt == IDENTIFIER_TOKEN)
+        {
+            AssignmentStatement();
+        }
+        else if(tt == COUT_TOKEN)
+        {
+            CoutStatement();
+        }
+        else if(tt == LEFT_CURLY_TOKEN)
+        {
+            Block();
+        }
+        else
+        {
+            return;
+        }
     }
 }
 
 void ParserClass::DeclarationStatement() {
+    MSG("Starting DeclarationStatement")
     Match(INT_TOKEN);
     Match(IDENTIFIER_TOKEN);
     Match(SEMICOLON_TOKEN);
+    MSG("Ending DeclarationStatement")
 }
 
 void ParserClass::AssignmentStatement() {
+    MSG("Starting AssignmentStatement")
     Match(IDENTIFIER_TOKEN);
     Match(ASSIGNMENT_TOKEN);
     Expression();
     Match(SEMICOLON_TOKEN);
+    MSG("Ending AssignmentStatement")
 }
 
 void ParserClass::CoutStatement() {
+    MSG("Starting CoutStatement")
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
     Expression();
     Match(SEMICOLON_TOKEN);
+    MSG("Ending CoutStatement")
 }
 
 void ParserClass::Expression() {
@@ -203,7 +211,7 @@ void ParserClass::Match(TokenType expectedType) {
     TokenType tt = tc.GetTokenType();
     if(tt != expectedType)
     {
-        std::cout << "Error: Expected " << expectedType << ", but got " << tt << std::endl;
+        std::cout << "Error: Expected " << gTokenTypeNames[expectedType] << ", but got " << gTokenTypeNames[tt] << std::endl;
         exit(EXIT_FAILURE);
     }
 
