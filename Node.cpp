@@ -153,3 +153,111 @@ PlusNode::~PlusNode(){
 int PlusNode::Evaluate(){
     return left->Evaluate() + right->Evaluate();
 }
+
+MinusNode::MinusNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating MinusNode");
+}
+
+MinusNode::~MinusNode(){
+    MSG("Destroying MinusNode");
+}
+
+int MinusNode::Evaluate(){
+    return left->Evaluate() - right->Evaluate();
+}
+
+TimesNode::TimesNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating TimesNode");
+}
+
+TimesNode::~TimesNode(){
+    MSG("Destroying TimesNode");
+}
+
+int TimesNode::Evaluate(){
+    return left->Evaluate() * right->Evaluate();
+}
+
+DivideNode::DivideNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating DivideNode");
+}
+
+DivideNode::~DivideNode(){
+    MSG("Destroying DivideNode");
+}
+
+int DivideNode::Evaluate(){
+    return left->Evaluate() / right->Evaluate();
+}
+
+LessNode::LessNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating LessNode");
+}
+
+LessNode::~LessNode(){
+    MSG("Destroying LessNode");
+}
+
+int LessNode::Evaluate(){
+    return left->Evaluate() < right->Evaluate() ? 1 : 0;
+}
+
+LessEqualNode::LessEqualNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating LessEqualNode");
+}
+
+LessEqualNode::~LessEqualNode(){
+    MSG("Destroying LessEqualNode");
+}
+
+int LessEqualNode::Evaluate(){
+    return left->Evaluate() <= right->Evaluate() ? 1 : 0;
+}
+
+GreaterNode::GreaterNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating GreaterNode");
+}
+
+GreaterNode::~GreaterNode(){
+    MSG("Destroying GreaterNode");
+}
+
+int GreaterNode::Evaluate(){
+    return left->Evaluate() > right->Evaluate() ? 1 : 0;
+}
+
+GreaterEqualNode::GreaterEqualNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating GreaterEqualNode");
+}
+
+GreaterEqualNode::~GreaterEqualNode(){
+    MSG("Destroying GreaterEqualNode");
+}
+
+int GreaterEqualNode::Evaluate(){
+    return left->Evaluate() >= right->Evaluate() ? 1 : 0;
+}
+
+EqualNode::EqualNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating EqualNode");
+}
+
+EqualNode::~EqualNode(){
+    MSG("Destroying EqualNode");
+}
+
+int EqualNode::Evaluate(){
+    return left->Evaluate() == right->Evaluate() ? 1 : 0;
+}
+
+NotEqualNode::NotEqualNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    MSG("Creating NotEqualNode");
+}
+
+NotEqualNode::~NotEqualNode(){
+    MSG("Destroying NotEqualNode");
+}
+
+int NotEqualNode::Evaluate(){
+    return left->Evaluate() != right->Evaluate() ? 1 : 0;
+}
