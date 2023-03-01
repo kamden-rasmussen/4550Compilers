@@ -12,19 +12,16 @@ ScannerClass::ScannerClass(std::string input)
     }
 }
 
-ScannerClass::~ScannerClass()
-{
+ScannerClass::~ScannerClass() {
     MSG("closing the file stream");
     mFin.close();
 }
 
-int ScannerClass::getLineNumber()
-{
+int ScannerClass::getLineNumber() {
     return mLineNumber;
 }
 
-TokenClass ScannerClass::getNextToken()
-{
+TokenClass ScannerClass::GetNextToken() {
     StateMachineClass sm = StateMachineClass();
     MachineState state;
     char nextChar;
@@ -58,11 +55,10 @@ TokenClass ScannerClass::getNextToken()
     return token;
 }
 
-TokenClass ScannerClass::peekNextToken()
-{
+TokenClass ScannerClass::PeekNextToken() {
     std::streampos pos = mFin.tellg();
     int line = mLineNumber;
-    TokenClass token = getNextToken();
+    TokenClass token = GetNextToken();
     if (!mFin)
     {
         mFin.clear();

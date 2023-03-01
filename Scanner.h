@@ -13,8 +13,8 @@ class ScannerClass
 public:
     ScannerClass(std::string input);
     ~ScannerClass();
-    TokenClass getNextToken();
-    TokenClass peekNextToken();
+    TokenClass GetNextToken();
+    TokenClass PeekNextToken();
     int getLineNumber();
 
 private:
