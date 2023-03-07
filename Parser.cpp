@@ -6,7 +6,6 @@ ParserClass::ParserClass(ScannerClass *scanner, SymbolTableClass *symbolTable) {
 }
 
 ParserClass::~ParserClass() {
-
 }
 
 // <Start> → <Program> ENDFILE
@@ -21,200 +20,236 @@ ParserClass::~ParserClass() {
 // <AssignmentStatement> → <Identifier>ASSIGNMENT<Expression> SEMICOLON 
 // <CoutStatement> → COUT INSERTION <Expression> SEMICOLON 
 
-void ParserClass::Start(){
-    MSG("Starting Parser");
-    Program();
+StartNode* ParserClass::Start(){
+    MSG("START");
+    ProgramNode* pn = Program();
     Match(ENDFILE_TOKEN);
+    StartNode* sn = new StartNode(pn);
+    MSG("END");
+    return sn;
 }
 
-void ParserClass::Program() {
+ProgramNode* ParserClass::Program() {
+    MSG("Program Starting NOW");
     Match(VOID_TOKEN);
     Match(MAIN_TOKEN);
     Match(LEFT_PAREN_TOKEN);
     Match(RIGHT_PAREN_TOKEN);
-    Block();
+    BlockNode* bn = Block();
+    ProgramNode* pn = new ProgramNode(bn);
+    MSG("Program Closing")
+    return pn;
 }
 
-void ParserClass::Block() {
-    MSG("Opening Block");
+BlockNode* ParserClass::Block() {
+    MSG("Block Starting");
     Match(LEFT_CURLY_TOKEN);
-    StatementGroup();
+    StatementGroupNode* sgn = StatementGroup();
     Match(RIGHT_CURLY_TOKEN);
-    MSG("Closing Block");
+    BlockNode* bn = new BlockNode(sgn);
+    MSG("Block Closing")
+    return bn;
 }
 
-void ParserClass::StatementGroup() {
-    MSG("Opening StatementGroup");
+StatementGroupNode* ParserClass::StatementGroup() {
+    MSG("StatementGroup Starting");
+    StatementGroupNode* sgn = new StatementGroupNode();
     while(true) {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         if(tt == INT_TOKEN)
         {
-            DeclarationStatement();
+            DeclarationStatementNode* dsn = DeclarationStatement();
+            sgn->AddStatement(dsn);
         }
         else if(tt == IDENTIFIER_TOKEN)
         {
-            AssignmentStatement();
+            AssignmentStatementNode* asn = AssignmentStatement();
+            sgn->AddStatement(asn);
         }
         else if(tt == COUT_TOKEN)
         {
-            CoutStatement();
+            CoutStatementNode* csn = CoutStatement();
+            sgn->AddStatement(csn);
         }
         else if(tt == LEFT_CURLY_TOKEN)
         {
-            Block();
+            BlockNode* bn = Block();
+            sgn->AddStatement(bn);
         }
         else
         {
-            return;
+            MSG("StatementGroup Ending")
+            return sgn;
         }
     }
 }
 
-void ParserClass::DeclarationStatement() {
-    MSG("Starting DeclarationStatement")
+DeclarationStatementNode* ParserClass::DeclarationStatement() {
+    MSG("DeclarationStatement Starting")
     Match(INT_TOKEN);
-    Match(IDENTIFIER_TOKEN);
+    IdentifierNode* in = Identifier();
     Match(SEMICOLON_TOKEN);
-    MSG("Ending DeclarationStatement")
+    MSG("DeclarationStatement Ending")
+    DeclarationStatementNode* dsn = new DeclarationStatementNode(in);
+    return dsn;
 }
 
-void ParserClass::AssignmentStatement() {
-    MSG("Starting AssignmentStatement")
-    Match(IDENTIFIER_TOKEN);
+AssignmentStatementNode* ParserClass::AssignmentStatement() {
+    MSG("AssignmentStatement Starting")
+    IdentifierNode* in = Identifier();
     Match(ASSIGNMENT_TOKEN);
-    Expression();
+    ExpressionNode* en = Expression();
     Match(SEMICOLON_TOKEN);
-    MSG("Ending AssignmentStatement")
+    MSG("AssignmentStatement Ending")
+    AssignmentStatementNode* asn = new AssignmentStatementNode(in, en);
+    return asn;
 }
 
-void ParserClass::CoutStatement() {
+CoutStatementNode* ParserClass::CoutStatement() {
     MSG("Starting CoutStatement")
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
-    Expression();
+    ExpressionNode* en = Expression();
     Match(SEMICOLON_TOKEN);
     MSG("Ending CoutStatement")
+    CoutStatementNode* csn = new CoutStatementNode(en);
+    return csn;
 }
 
-void ParserClass::Expression() {
-    Relational();
+ExpressionNode* ParserClass::Expression() {
+    MSG("Starting Expression")
+    ExpressionNode* en = Relational();
+    MSG("Ending Expression")
+    return en;
 }
 
-void ParserClass::Relational() {
-	PlusMinus();
+ExpressionNode* ParserClass::Relational() {
+    MSG("Starting Relational")
 
-	// Handle the optional tail:
+    ExpressionNode* current = PlusMinus();
 	TokenType tt = mScanner->PeekNextToken().GetTokenType();
 	if(tt == LESS_TOKEN)
 	{
 		Match(tt);
-		PlusMinus();
+        current = new LessNode(current, PlusMinus());
 	}
 	else if(tt == LESS_EQUAL_TOKEN)
 	{
 		Match(tt);
-		PlusMinus();
+		current = new LessEqualNode(current, PlusMinus());
 	}
 	else if(tt == GREATER_TOKEN)
 	{
 		Match(tt);
-		PlusMinus();
+		current = new GreaterNode(current, PlusMinus());
 	}
 	else if(tt == GREATER_EQUAL_TOKEN)
 	{
 		Match(tt);
-		PlusMinus();
+		current = new GreaterEqualNode(current, PlusMinus());
 	}
 	else if(tt == EQUAL_TOKEN)
 	{
 		Match(tt);
-		PlusMinus();
+		current = new EqualNode(current, PlusMinus());
 	}
 	else if(tt == NOTEQUAL_TOKEN)
 	{
 		Match(tt);
-		PlusMinus();
+		current = new NotEqualNode(current, PlusMinus());
 	}
-	else
-	{
-		return;
-	}
+    MSG("Ending Relational")
+	return current;
 }
 
-void ParserClass::PlusMinus() {
-    TimesDivide();
-
-    // Handle the optional tail:
-    TokenType tt = mScanner->PeekNextToken().GetTokenType();
-    if(tt == PLUS_TOKEN)
-    {
-        Match(tt);
-        TimesDivide();
-    }
-    else if(tt == MINUS_TOKEN)
-    {
-        Match(tt);
-        TimesDivide();
-    }
-    else
-    {
-        return;
+ExpressionNode* ParserClass::PlusMinus() {
+    
+    ExpressionNode* current = TimesDivide();
+    while(true) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if(tt == PLUS_TOKEN) {
+            Match(tt);
+            ExpressionNode* current = new PlusNode(current, TimesDivide());
+        }
+        else if(tt == MINUS_TOKEN) {
+            Match(tt);
+            ExpressionNode* current = new MinusNode(current, TimesDivide());
+        }
+        else {
+            return current;
+        }
     }
 }
 
-void ParserClass::TimesDivide() {
-    Factor();
+ExpressionNode* ParserClass::TimesDivide() {
 
-    // Handle the optional tail:
-    TokenType tt = mScanner->PeekNextToken().GetTokenType();
-    if(tt == TIMES_TOKEN)
-    {
-        Match(tt);
-        Factor();
-    }
-    else if(tt == DIVIDE_TOKEN)
-    {
-        Match(tt);
-        Factor();
-    }
-    else
-    {
-        return;
+    ExpressionNode* current = Factor();
+    while(true) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if(tt == TIMES_TOKEN) {
+            Match(tt);
+            ExpressionNode* current = new TimesNode(current, Factor());
+        }
+        else if(tt == DIVIDE_TOKEN) {
+            Match(tt);
+            ExpressionNode* current = new DivideNode(current, Factor());
+        }
+        else {
+            return current;
+        }
     }
 }
 
-void ParserClass::Factor() {
-    TokenClass tc = mScanner->PeekNextToken();
-    TokenType tt = tc.GetTokenType();
-    if(tt == IDENTIFIER_TOKEN)
-    {
-        Match(tt);
-    }
-    else if(tt == INTEGER_TOKEN)
-    {
-        Match(tt);
-    }
-    else if(tt == LEFT_PAREN_TOKEN)
-    {
-        Match(tt);
-        Match(RIGHT_PAREN_TOKEN);
-    }
-    else
-    {
-        std::cout << "Error: Expected IDENTIFIER_TOKEN, INTEGER_TOKEN, or LPAREN_TOKEN, but got " << tt << std::endl;
-        exit(EXIT_FAILURE);
+ExpressionNode* ParserClass::Factor() {
+    ExpressionNode* en;
+    while(true){
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if(tt == IDENTIFIER_TOKEN) {
+            en = Identifier();
+            return en;
+        }
+        else if(tt == INTEGER_TOKEN) {
+            en = Integer();
+            return en;
+        }
+        else if(tt == LEFT_PAREN_TOKEN) {
+            Match(tt);
+            en = Expression();
+            Match(RIGHT_PAREN_TOKEN);
+            return en;
+        }
+        else {
+            std::cout << "Error: Expected IDENTIFIER_TOKEN, INTEGER_TOKEN, or LPAREN_TOKEN, but got " << tt << std::endl;
+            exit(EXIT_FAILURE);
+        }
     }
 }
 
-void ParserClass::Match(TokenType expectedType) {
+TokenClass ParserClass::Match(TokenType expectedType) {
     TokenClass tc = mScanner->GetNextToken();
+    // MSG("Matched " << gTokenTypeNames[tc.GetTokenType()] << " with " << gTokenTypeNames[expectedType]);
     TokenType tt = tc.GetTokenType();
     if(tt != expectedType)
     {
-        std::cout << "Error: Expected " << gTokenTypeNames[expectedType] << ", but got " << gTokenTypeNames[tt] << std::endl;
+        std::cout << "Error: Expected " << gTokenTypeNames[expectedType] << ", but got " << gTokenTypeNames[tt] <<  std::endl;
         exit(EXIT_FAILURE);
     }
+    return tc;
+}
 
+IdentifierNode* ParserClass::Identifier() {
+    // MSG("Creating IdentifierNode");
+    TokenClass tc = Match(IDENTIFIER_TOKEN);
+    IdentifierNode* in = new IdentifierNode(tc.GetLexeme(), mSymbolTable);
+    return in;
+
+}
+
+IntegerNode* ParserClass::Integer() {
+    // MSG("Creating IntegerNode");
+    TokenClass tc = Match(INTEGER_TOKEN);
+    IntegerNode* in = new IntegerNode(atoi(tc.GetLexeme().c_str()));
+    return in;
 }
 
 

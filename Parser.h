@@ -2,6 +2,7 @@
 #include "Scanner.h"
 #include "Symbol.h"
 #include "Debug.h"
+#include "Node.h"
 
 
 class ParserClass {
@@ -9,19 +10,21 @@ class ParserClass {
     public:
         ParserClass(ScannerClass *scanner, SymbolTableClass *symbolTable);
         ~ParserClass();
-        void Start();
-        void Expression();
-        void Relational();
-        void PlusMinus();
-        void TimesDivide();
-        void Factor();
-        void Match(TokenType expected);
-        void Program();
-        void Block();
-        void StatementGroup();
-        void DeclarationStatement();
-        void AssignmentStatement();
-        void CoutStatement();
+        StartNode* Start();
+        ExpressionNode* Expression();
+        ExpressionNode* Relational();
+        ExpressionNode* PlusMinus();
+        ExpressionNode* TimesDivide();
+        ExpressionNode* Factor();
+        TokenClass Match(TokenType expected);
+        ProgramNode* Program();
+        BlockNode* Block();
+        StatementGroupNode* StatementGroup();
+        DeclarationStatementNode* DeclarationStatement();
+        AssignmentStatementNode* AssignmentStatement();
+        CoutStatementNode* CoutStatement();
+        IdentifierNode* Identifier();
+        IntegerNode* Integer();
 
 
     private:
