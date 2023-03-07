@@ -86,7 +86,7 @@ void testParserWithOutput(){
     SymbolTableClass symbolTable;
     ParserClass parser(&scanner, &symbolTable);
     StartNode* start = parser.Start();
-
+    MSG("PARSER DONE");
     delete start;
 }
 
@@ -95,6 +95,7 @@ int main(){
     // testScanner();
     // testSymbol();
     // testNodes();
-    testParser();
+    // testParser();
+    testParserWithOutput();
     return 0;
 }

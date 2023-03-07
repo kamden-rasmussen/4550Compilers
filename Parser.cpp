@@ -23,8 +23,8 @@ ParserClass::~ParserClass() {
 StartNode* ParserClass::Start(){
     MSG("START");
     ProgramNode* pn = Program();
+    StartNode* sn = new StartNode(pn); // order seems backwards
     Match(ENDFILE_TOKEN);
-    StartNode* sn = new StartNode(pn);
     MSG("END");
     return sn;
 }
