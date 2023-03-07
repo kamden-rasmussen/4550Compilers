@@ -4,10 +4,10 @@ void main() {
     int c;
     a = 1;
     b = 2;
-    c = a + b;
+    c = 3;
 
     cout << a;
-    cout << b << c;
+    // cout << b << c;
 
     // catch bad things
 }

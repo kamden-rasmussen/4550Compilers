@@ -81,6 +81,15 @@ void testParser(){
     parser.Start();
 }
 
+void testParserWithOutput(){
+    ScannerClass scanner("test2.c");
+    SymbolTableClass symbolTable;
+    ParserClass parser(&scanner, &symbolTable);
+    StartNode* start = parser.Start();
+
+    delete start;
+}
+
 int main(){
     // testToken();
     // testScanner();
