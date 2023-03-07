@@ -47,7 +47,7 @@ class ProgramNode : public Node{
         BlockNode *blockNode;
 };
 
-class BlockNode : public Node{
+class BlockNode : public StatementNode{
     public:
         BlockNode(StatementGroupNode *statementGroupNode);
         ~BlockNode();
