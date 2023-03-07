@@ -3,7 +3,6 @@
 ScannerClass::ScannerClass(std::string input)
     : mFileName(input), mLineNumber(1)
 {
-    MSG("initializing ScannerClass constructor");
     mFin.open(mFileName, std::ios::binary);
     if (!mFin)
     {
