@@ -35,5 +35,29 @@ void main() {
         cout << a;
         a = a + 1;
     }
+
+    cout << 1 == 1;
+    cout << 1 == 2;
+    cout << 1 != 1;
+    cout << 1 != 2;
+    cout << 1 < 2;
+    cout << 1 < 1;
+    cout << 1 > 2;
+    cout << 1 > 1;
+    cout << 1 <= 2;
+    cout << 1 <= 1;
+    cout << 1 >= 2;
+    cout << 1 >= 1;
+
+    cout << 1 && 1;
+    cout << 1 && 0;
+    cout << 0 && 1;
+    cout << 0 && 0;
+    cout << 1 || 1;
+    cout << 1 || 0;
+    cout << 0 || 1;
+    cout << 0 || 0;
+
+
     // catch bad things
 }

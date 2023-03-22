@@ -25,6 +25,11 @@ enum MachineState {
     NOT_STATE,
     NOTEQUAL_STATE,
 
+    AND_STATE,
+    OR_STATE,
+    AND_TEMP_STATE,
+    OR_TEMP_STATE,
+
     LESS_THEN_STATE,
     GREATER_THEN_STATE,
     LESS_EQUAL_STATE,
@@ -59,6 +64,9 @@ enum CharacterType {
 
     LESS_THEN_CHAR,
     GREATER_THEN_CHAR,
+
+    AND_CHAR,
+    OR_CHAR,
 
     NEWLINE_CHAR,
     ENDFILE_CHAR,

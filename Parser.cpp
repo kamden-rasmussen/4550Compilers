@@ -21,38 +21,38 @@ ParserClass::~ParserClass() {
 // <CoutStatement> → COUT INSERTION <Expression> SEMICOLON 
 
 StartNode* ParserClass::Start(){
-    MSG("START");
+    // MSG("START");
     ProgramNode* pn = Program();
     StartNode* sn = new StartNode(pn); // order seems backwards
     Match(ENDFILE_TOKEN);
-    MSG("END");
+    // MSG("END");
     return sn;
 }
 
 ProgramNode* ParserClass::Program() {
-    MSG("Program Starting NOW");
+    // MSG("Program Starting NOW");
     Match(VOID_TOKEN);
     Match(MAIN_TOKEN);
     Match(LEFT_PAREN_TOKEN);
     Match(RIGHT_PAREN_TOKEN);
     BlockNode* bn = Block();
     ProgramNode* pn = new ProgramNode(bn);
-    MSG("Program Closing")
+    // MSG("Program Closing")
     return pn;
 }
 
 BlockNode* ParserClass::Block() {
-    MSG("Block Starting");
+    // MSG("Block Starting");
     Match(LEFT_CURLY_TOKEN);
     StatementGroupNode* sgn = StatementGroup();
     Match(RIGHT_CURLY_TOKEN);
     BlockNode* bn = new BlockNode(sgn);
-    MSG("Block Closing")
+    // MSG("Block Closing")
     return bn;
 }
 
 StatementGroupNode* ParserClass::StatementGroup() {
-    MSG("StatementGroup Starting");
+    // MSG("StatementGroup Starting");
     StatementGroupNode* sgn = new StatementGroupNode();
     while(true) {
         StatementNode* sn = Statement();
@@ -67,109 +67,133 @@ StatementGroupNode* ParserClass::StatementGroup() {
 }
 
 StatementNode* ParserClass::Statement() {
-    MSG("Statement Starting")
+    // MSG("Statement Starting")
     TokenType tt = mScanner->PeekNextToken().GetTokenType();
     if(tt == INT_TOKEN) {
-        MSG("Statement is DeclarationStatement")
+        // MSG("Statement is DeclarationStatement")
         DeclarationStatementNode* dsn = DeclarationStatement();
         return dsn;
     }
     else if(tt == IDENTIFIER_TOKEN) {
-        MSG("Statement is AssignmentStatement")
+        // MSG("Statement is AssignmentStatement")
         AssignmentStatementNode* asn = AssignmentStatement();
         return asn;
     }
     else if(tt == COUT_TOKEN) {
-        MSG("Statement is CoutStatement")
+        // MSG("Statement is CoutStatement")
         CoutStatementNode* csn = CoutStatement();
         return csn;
     }
     else if(tt == LEFT_CURLY_TOKEN) {
-        MSG("Statement is Block")
+        // MSG("Statement is Block")
         BlockNode* bn = Block();
         return bn;
     }
     else if (tt == IF_TOKEN) {
-        MSG("Statement is IfStatement")
+        // MSG("Statement is IfStatement")
         IfStatementNode* isn = IfStatement();
         return isn;
     }
     else if (tt == WHILE_TOKEN) {
-        MSG("Statement is WhileStatement")
+        // MSG("Statement is WhileStatement")
         WhileStatementNode* isn = WhileStatement();
         return isn;
     }
     else {
-        MSG("Statement is NULL")
+        // MSG("Statement is NULL")
         return NULL;
     }
 }
 
 DeclarationStatementNode* ParserClass::DeclarationStatement() {
-    MSG("DeclarationStatement Starting")
+    // MSG("DeclarationStatement Starting")
     Match(INT_TOKEN);
     IdentifierNode* in = Identifier();
     Match(SEMICOLON_TOKEN);
-    MSG("DeclarationStatement Ending")
+    // MSG("DeclarationStatement Ending")
     DeclarationStatementNode* dsn = new DeclarationStatementNode(in);
     return dsn;
 }
 
 AssignmentStatementNode* ParserClass::AssignmentStatement() {
-    MSG("AssignmentStatement Starting")
+    // MSG("AssignmentStatement Starting")
     IdentifierNode* in = Identifier();
     Match(ASSIGNMENT_TOKEN);
     ExpressionNode* en = Expression();
     Match(SEMICOLON_TOKEN);
-    MSG("AssignmentStatement Ending")
+    // MSG("AssignmentStatement Ending")
     AssignmentStatementNode* asn = new AssignmentStatementNode(in, en);
     return asn;
 }
 
 CoutStatementNode* ParserClass::CoutStatement() {
-    MSG("Starting CoutStatement")
+    // MSG("Starting CoutStatement")
     Match(COUT_TOKEN);
     Match(INSERTION_TOKEN);
     ExpressionNode* en = Expression();
     Match(SEMICOLON_TOKEN);
-    MSG("Ending CoutStatement")
+    // MSG("Ending CoutStatement")
     CoutStatementNode* csn = new CoutStatementNode(en);
     return csn;
 }
 
 IfStatementNode* ParserClass::IfStatement() {
-    MSG("Starting IfStatement")
+    // MSG("Starting IfStatement")
     Match(IF_TOKEN);
     Match(LEFT_PAREN_TOKEN);
     ExpressionNode* en = Expression();
     Match(RIGHT_PAREN_TOKEN);
     BlockNode* bn = Block();
-    MSG("Ending IfStatement")
+    // MSG("Ending IfStatement")
     IfStatementNode* isn = new IfStatementNode(en, bn);
     return isn;
 }
 
 WhileStatementNode* ParserClass::WhileStatement() {
-    MSG("Starting WhileStatement")
+    // MSG("Starting WhileStatement")
     Match(WHILE_TOKEN);
     Match(LEFT_PAREN_TOKEN);
     ExpressionNode* en = Expression();
     Match(RIGHT_PAREN_TOKEN);
     BlockNode* bn = Block();
-    MSG("Ending WhileStatement")
+    // MSG("Ending WhileStatement")
     WhileStatementNode* wsn = new WhileStatementNode(en, bn);
     return wsn;
 }
 
 ExpressionNode* ParserClass::Expression() {
-    MSG("Starting Expression")
-    ExpressionNode* en = Relational();
-    MSG("Ending Expression")
+    // MSG("Starting Expression")
+    ExpressionNode* en = Or();
+    // MSG("Ending Expression")
     return en;
 }
 
+ExpressionNode* ParserClass::Or() {
+    // MSG("Starting Or")
+    ExpressionNode* current = And();
+    TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    if (tt == OR_TOKEN) {
+        Match(tt);
+        current = new OrNode(current, And());
+    }
+    // MSG("Ending Or")
+    return current;
+}
+
+ExpressionNode* ParserClass::And() {
+    // MSG("Starting And")
+    ExpressionNode* current = Relational();
+    TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    if (tt == AND_TOKEN) {
+        Match(tt);
+        current = new AndNode(current, Relational());
+    }
+    // MSG("Ending And")
+    return current;
+}
+
 ExpressionNode* ParserClass::Relational() {
-    MSG("Starting Relational")
+    // MSG("Starting Relational")
 
     ExpressionNode* current = PlusMinus();
 	TokenType tt = mScanner->PeekNextToken().GetTokenType();
@@ -203,7 +227,7 @@ ExpressionNode* ParserClass::Relational() {
 		Match(tt);
 		current = new NotEqualNode(current, PlusMinus());
 	}
-    MSG("Ending Relational")
+    // MSG("Ending Relational")
 	return current;
 }
 

@@ -223,3 +223,17 @@ class NotEqualNode : public BinaryOperatorNode{
         int Evaluate();
 };
 
+class AndNode : public BinaryOperatorNode{
+    public:
+        AndNode(ExpressionNode *left, ExpressionNode *right);
+        ~AndNode();
+        int Evaluate();
+};
+
+class OrNode : public BinaryOperatorNode{
+    public:
+        OrNode(ExpressionNode *left, ExpressionNode *right);
+        ~OrNode();
+        int Evaluate();
+};
+

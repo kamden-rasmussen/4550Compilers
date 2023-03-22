@@ -13,6 +13,8 @@ class ParserClass {
         StartNode* Start();
         ExpressionNode* Expression();
         ExpressionNode* Relational();
+        ExpressionNode* Or();
+        ExpressionNode* And();
         ExpressionNode* PlusMinus();
         ExpressionNode* TimesDivide();
         ExpressionNode* Factor();

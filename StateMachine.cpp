@@ -27,6 +27,9 @@ StateMachineClass::StateMachineClass(){
     this->mLegalMoves[MINUS_STATE][EQUALS_CHAR] = MEQUALS_STATE;
     this->mLegalMoves[START_STATE][FORWARD_SLASH_CHAR] = DIVIDE_STATE;
 
+    this->mLegalMoves[START_STATE][AND_CHAR] = AND_TEMP_STATE;
+    this->mLegalMoves[START_STATE][OR_CHAR] = OR_TEMP_STATE;
+
     // line comments
     this->mLegalMoves[DIVIDE_STATE][FORWARD_SLASH_CHAR] = LINE_COMMENT_STATE;
     for (int s = 0; s < LAST_CHAR; s++)
@@ -55,6 +58,9 @@ StateMachineClass::StateMachineClass(){
     this->mLegalMoves[START_STATE][NOT_CHAR] = NOT_STATE;
     this->mLegalMoves[NOT_STATE][EQUALS_CHAR] = NOTEQUAL_STATE;
 
+    this->mLegalMoves[AND_TEMP_STATE][AND_CHAR] = AND_STATE;
+    this->mLegalMoves[OR_TEMP_STATE][OR_CHAR] = OR_STATE;
+
     this->mLegalMoves[START_STATE][SEMICOLON_CHAR] = SEMICOLON_STATE;
     this->mLegalMoves[INTEGER_STATE][DIGIT_CHAR] = INTEGER_STATE;
     this->mLegalMoves[IDENTIFIER_STATE][DIGIT_CHAR] = IDENTIFIER_STATE;
@@ -80,6 +86,9 @@ StateMachineClass::StateMachineClass(){
     this->mCorrespondingTokenTypes[GREATER_EQUAL_STATE] = GREATER_EQUAL_TOKEN;
     this->mCorrespondingTokenTypes[EQUALS_STATE] = EQUAL_TOKEN;
     this->mCorrespondingTokenTypes[NOTEQUAL_STATE] = NOTEQUAL_TOKEN;
+
+    this->mCorrespondingTokenTypes[AND_STATE] = AND_TOKEN;
+    this->mCorrespondingTokenTypes[OR_STATE] = OR_TOKEN;
 
     this->mCorrespondingTokenTypes[INSERTION_STATE] = INSERTION_TOKEN;
     this->mCorrespondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
@@ -145,9 +154,12 @@ MachineState StateMachineClass::UpdateState(char currentCharacter, TokenType & p
             case '!':
                 charType = NOT_CHAR;
                 break;
-            // case '&':
-            //     charType = AND_CHAR;
-            //     break;
+            case '&':
+                charType = AND_CHAR;
+                break;
+            case '|':
+                charType = OR_CHAR;
+                break;
             case EOF:
                 charType = ENDFILE_CHAR;
                 break;
