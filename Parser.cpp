@@ -94,6 +94,11 @@ StatementNode* ParserClass::Statement() {
         IfStatementNode* isn = IfStatement();
         return isn;
     }
+    else if (tt == WHILE_TOKEN) {
+        MSG("Statement is WhileStatement")
+        WhileStatementNode* isn = WhileStatement();
+        return isn;
+    }
     else {
         MSG("Statement is NULL")
         return NULL;
@@ -142,6 +147,18 @@ IfStatementNode* ParserClass::IfStatement() {
     MSG("Ending IfStatement")
     IfStatementNode* isn = new IfStatementNode(en, bn);
     return isn;
+}
+
+WhileStatementNode* ParserClass::WhileStatement() {
+    MSG("Starting WhileStatement")
+    Match(WHILE_TOKEN);
+    Match(LEFT_PAREN_TOKEN);
+    ExpressionNode* en = Expression();
+    Match(RIGHT_PAREN_TOKEN);
+    BlockNode* bn = Block();
+    MSG("Ending WhileStatement")
+    WhileStatementNode* wsn = new WhileStatementNode(en, bn);
+    return wsn;
 }
 
 ExpressionNode* ParserClass::Expression() {

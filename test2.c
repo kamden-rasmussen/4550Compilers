@@ -20,5 +20,20 @@ void main() {
     if(a != 2) {
         cout << 1;
     }
+
+    while(a < 10) {
+        cout << a;
+        a = a + 1;
+    }
+
+    while(a > 0) {
+        cout << a;
+        a = a - 1;
+    }
+
+    while(a > 10) {
+        cout << a;
+        a = a + 1;
+    }
     // catch bad things
 }

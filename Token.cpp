@@ -38,6 +38,8 @@ void TokenClass::CheckReserved() {
         mType = COUT_TOKEN;
     } else if (mLexeme == "if") {
         mType = IF_TOKEN;
+    } else if (mLexeme == "while") {
+        mType = WHILE_TOKEN;
     }
 }
 

@@ -119,6 +119,10 @@ CoutStatementNode::~CoutStatementNode(){
     MSG("Destroying CoutStatementNode");
 }
 
+void CoutStatementNode::Interpret(){
+    std::cout << this->expressionNode->Evaluate() << std::endl;
+}
+
 IfStatementNode::IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode){
     this->expressionNode = expressionNode;
     this->statementNode = statementNode;
@@ -137,8 +141,22 @@ void IfStatementNode::Interpret(){
     }
 }
 
-void CoutStatementNode::Interpret(){
-    std::cout << this->expressionNode->Evaluate() << std::endl;
+WhileStatementNode::WhileStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode){
+    this->expressionNode = expressionNode;
+    this->statementNode = statementNode;
+    MSG("Creating WhileStatementNode");
+}
+
+WhileStatementNode::~WhileStatementNode(){
+    delete this->expressionNode;
+    delete this->statementNode;
+    MSG("Destroying WhileStatementNode");
+}
+
+void WhileStatementNode::Interpret(){
+    while(this->expressionNode->Evaluate() != 0){
+        this->statementNode->Interpret();
+    }
 }
 
 ExpressionNode::ExpressionNode(){
@@ -167,7 +185,7 @@ int IdentifierNode::GetIndex(){
 }
 
 int IdentifierNode::Evaluate(){
-    MSG("Evaluating IdentifierNode")
+    // MSG("Evaluating IdentifierNode")
     MSG("Getting value of " << this->name)
     return this->symbolTable->GetValue(this->name);
 }
@@ -182,7 +200,7 @@ IntegerNode::~IntegerNode(){
 }
 
 int IntegerNode::Evaluate(){
-    MSG("Evaluating IntegerNode")
+    // MSG("Evaluating IntegerNode")
     return this->value;
 }
 
@@ -207,7 +225,7 @@ PlusNode::~PlusNode(){
 }
 
 int PlusNode::Evaluate(){
-    MSG("Evaluating PlusNode")
+    // MSG("Evaluating PlusNode")
     return this->left->Evaluate() + this->right->Evaluate();
 }
 

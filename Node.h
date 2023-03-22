@@ -106,6 +106,16 @@ class IfStatementNode : public StatementNode{
         ExpressionNode *expressionNode;
         StatementNode *statementNode;
 };
+
+class WhileStatementNode : public StatementNode{
+    public:
+        WhileStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode);
+        ~WhileStatementNode();
+        void Interpret();
+    private:
+        ExpressionNode *expressionNode;
+        StatementNode *statementNode;
+};
 class ExpressionNode{
     public:
         ExpressionNode();
