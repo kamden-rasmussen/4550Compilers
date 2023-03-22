@@ -1,4 +1,4 @@
-run: main
+run: clean main
 	./main
 
 main: main.o token.o scanner.o statemachine.o symbol.o node.o parser.o
@@ -6,6 +6,9 @@ main: main.o token.o scanner.o statemachine.o symbol.o node.o parser.o
 
 main.o: main.cpp
 	gcc -c main.cpp
+
+clean:
+	rm -f *.o main
 
 token.o: token.cpp
 	gcc -c token.cpp
