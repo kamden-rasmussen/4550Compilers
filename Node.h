@@ -97,6 +97,15 @@ class CoutStatementNode : public StatementNode{
         ExpressionNode *expressionNode;
 };
 
+class IfStatementNode : public StatementNode{
+    public:
+        IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode);
+        ~IfStatementNode();
+        void Interpret();
+    private:
+        ExpressionNode *expressionNode;
+        StatementNode *statementNode;
+};
 class ExpressionNode{
     public:
         ExpressionNode();
@@ -203,3 +212,4 @@ class NotEqualNode : public BinaryOperatorNode{
         ~NotEqualNode();
         int Evaluate();
 };
+

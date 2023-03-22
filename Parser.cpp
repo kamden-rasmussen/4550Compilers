@@ -55,32 +55,48 @@ StatementGroupNode* ParserClass::StatementGroup() {
     MSG("StatementGroup Starting");
     StatementGroupNode* sgn = new StatementGroupNode();
     while(true) {
-        TokenType tt = mScanner->PeekNextToken().GetTokenType();
-        if(tt == INT_TOKEN)
-        {
-            DeclarationStatementNode* dsn = DeclarationStatement();
-            sgn->AddStatement(dsn);
+        StatementNode* sn = Statement();
+        if(sn != NULL) {
+            sgn->AddStatement(sn);
         }
-        else if(tt == IDENTIFIER_TOKEN)
-        {
-            AssignmentStatementNode* asn = AssignmentStatement();
-            sgn->AddStatement(asn);
+        else {
+            break;
         }
-        else if(tt == COUT_TOKEN)
-        {
-            CoutStatementNode* csn = CoutStatement();
-            sgn->AddStatement(csn);
-        }
-        else if(tt == LEFT_CURLY_TOKEN)
-        {
-            BlockNode* bn = Block();
-            sgn->AddStatement(bn);
-        }
-        else
-        {
-            MSG("StatementGroup Ending")
-            return sgn;
-        }
+    }
+    return sgn;
+}
+
+StatementNode* ParserClass::Statement() {
+    MSG("Statement Starting")
+    TokenType tt = mScanner->PeekNextToken().GetTokenType();
+    if(tt == INT_TOKEN) {
+        MSG("Statement is DeclarationStatement")
+        DeclarationStatementNode* dsn = DeclarationStatement();
+        return dsn;
+    }
+    else if(tt == IDENTIFIER_TOKEN) {
+        MSG("Statement is AssignmentStatement")
+        AssignmentStatementNode* asn = AssignmentStatement();
+        return asn;
+    }
+    else if(tt == COUT_TOKEN) {
+        MSG("Statement is CoutStatement")
+        CoutStatementNode* csn = CoutStatement();
+        return csn;
+    }
+    else if(tt == LEFT_CURLY_TOKEN) {
+        MSG("Statement is Block")
+        BlockNode* bn = Block();
+        return bn;
+    }
+    else if (tt == IF_TOKEN) {
+        MSG("Statement is IfStatement")
+        IfStatementNode* isn = IfStatement();
+        return isn;
+    }
+    else {
+        MSG("Statement is NULL")
+        return NULL;
     }
 }
 
@@ -114,6 +130,18 @@ CoutStatementNode* ParserClass::CoutStatement() {
     MSG("Ending CoutStatement")
     CoutStatementNode* csn = new CoutStatementNode(en);
     return csn;
+}
+
+IfStatementNode* ParserClass::IfStatement() {
+    MSG("Starting IfStatement")
+    Match(IF_TOKEN);
+    Match(LEFT_PAREN_TOKEN);
+    ExpressionNode* en = Expression();
+    Match(RIGHT_PAREN_TOKEN);
+    BlockNode* bn = Block();
+    MSG("Ending IfStatement")
+    IfStatementNode* isn = new IfStatementNode(en, bn);
+    return isn;
 }
 
 ExpressionNode* ParserClass::Expression() {
@@ -251,8 +279,4 @@ IntegerNode* ParserClass::Integer() {
     IntegerNode* in = new IntegerNode(atoi(tc.GetLexeme().c_str()));
     return in;
 }
-
-
-
-
 

@@ -119,6 +119,24 @@ CoutStatementNode::~CoutStatementNode(){
     MSG("Destroying CoutStatementNode");
 }
 
+IfStatementNode::IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode){
+    this->expressionNode = expressionNode;
+    this->statementNode = statementNode;
+    MSG("Creating IfStatementNode");
+}
+
+IfStatementNode::~IfStatementNode(){
+    delete this->expressionNode;
+    delete this->statementNode;
+    MSG("Destroying IfStatementNode");
+}
+
+void IfStatementNode::Interpret(){
+    if(this->expressionNode->Evaluate() != 0){
+        this->statementNode->Interpret();
+    }
+}
+
 void CoutStatementNode::Interpret(){
     std::cout << this->expressionNode->Evaluate() << std::endl;
 }

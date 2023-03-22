@@ -20,9 +20,11 @@ class ParserClass {
         ProgramNode* Program();
         BlockNode* Block();
         StatementGroupNode* StatementGroup();
+        StatementNode* Statement();
         DeclarationStatementNode* DeclarationStatement();
         AssignmentStatementNode* AssignmentStatement();
         CoutStatementNode* CoutStatement();
+        IfStatementNode* IfStatement();
         IdentifierNode* Identifier();
         IntegerNode* Integer();
 
