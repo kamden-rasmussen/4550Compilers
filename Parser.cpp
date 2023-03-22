@@ -169,11 +169,11 @@ ExpressionNode* ParserClass::PlusMinus() {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         if(tt == PLUS_TOKEN) {
             Match(tt);
-            ExpressionNode* current = new PlusNode(current, TimesDivide());
+            current = new PlusNode(current, TimesDivide());
         }
         else if(tt == MINUS_TOKEN) {
             Match(tt);
-            ExpressionNode* current = new MinusNode(current, TimesDivide());
+            current = new MinusNode(current, TimesDivide());
         }
         else {
             return current;
@@ -188,11 +188,11 @@ ExpressionNode* ParserClass::TimesDivide() {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         if(tt == TIMES_TOKEN) {
             Match(tt);
-            ExpressionNode* current = new TimesNode(current, Factor());
+            current = new TimesNode(current, Factor());
         }
         else if(tt == DIVIDE_TOKEN) {
             Match(tt);
-            ExpressionNode* current = new DivideNode(current, Factor());
+            current = new DivideNode(current, Factor());
         }
         else {
             return current;

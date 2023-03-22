@@ -90,12 +90,23 @@ void testParserWithOutput(){
     delete start;
 }
 
+void testInterpreter(){
+    ScannerClass scanner("test2.c");
+    SymbolTableClass symbolTable;
+    ParserClass parser(&scanner, &symbolTable);
+    StartNode* start = parser.Start();
+    start->Interpret();
+    MSG("PARSER DONE");
+    delete start;
+}
+
 int main(){
     // testToken();
     // testScanner();
     // testSymbol();
     // testNodes();
     // testParser();
-    testParserWithOutput();
+    // testParserWithOutput();
+    testInterpreter();
     return 0;
 }

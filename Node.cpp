@@ -22,6 +22,11 @@ StartNode::~StartNode(){
     MSG("Destroying StartNode");
 }
 
+void StartNode::Interpret(){
+    MSG("Interpreting StartNode")
+    this->programNode->Interpret();
+}
+
 ProgramNode::ProgramNode(BlockNode *blockNode){
     this->blockNode = blockNode;
     MSG("Creating ProgramNode");
@@ -32,6 +37,11 @@ ProgramNode::~ProgramNode(){
     MSG("Destroying ProgramNode");
 }
 
+void ProgramNode::Interpret(){
+    MSG("Interpreting ProgramNode")
+    this->blockNode->Interpret();
+}
+
 BlockNode::BlockNode(StatementGroupNode *statementGroupNode){
     this->statementGroupNode = statementGroupNode;
     MSG("Creating BlockNode");
@@ -40,6 +50,11 @@ BlockNode::BlockNode(StatementGroupNode *statementGroupNode){
 BlockNode::~BlockNode(){
     delete this->statementGroupNode;
     MSG("Destroying BlockNode");
+}
+
+void BlockNode::Interpret(){
+    MSG("Interpreting BlockNode")
+    this->statementGroupNode->Interpret();
 }
 
 StatementGroupNode::StatementGroupNode(){
@@ -57,6 +72,13 @@ void StatementGroupNode::AddStatement(StatementNode *statementNode){
     this->statementNodes.push_back(statementNode);
 }
 
+void StatementGroupNode::Interpret(){
+    MSG("Interpreting StatementGroupNode")
+    for(int i = 0; i < this->statementNodes.size(); i++){
+        this->statementNodes[i]->Interpret();
+    }
+}
+
 DeclarationStatementNode::DeclarationStatementNode(IdentifierNode *identifierNode){
     this->identifierNode = identifierNode;
     MSG("Creating DeclarationStatementNode");
@@ -65,6 +87,10 @@ DeclarationStatementNode::DeclarationStatementNode(IdentifierNode *identifierNod
 DeclarationStatementNode::~DeclarationStatementNode(){
     delete this->identifierNode;
     MSG("Destroying DeclarationStatementNode");
+}
+
+void DeclarationStatementNode::Interpret(){
+    this->identifierNode->DeclareVariable();
 }
 
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode *identifierNode, ExpressionNode *expressionNode){
@@ -79,6 +105,10 @@ AssignmentStatementNode::~AssignmentStatementNode(){
     MSG("Destroying AssignmentStatementNode");
 }
 
+void AssignmentStatementNode::Interpret(){
+    this->identifierNode->SetValue(this->expressionNode->Evaluate());
+}
+
 CoutStatementNode::CoutStatementNode(ExpressionNode *expressionNode){
     this->expressionNode = expressionNode;
     MSG("Creating CoutStatementNode");
@@ -89,16 +119,16 @@ CoutStatementNode::~CoutStatementNode(){
     MSG("Destroying CoutStatementNode");
 }
 
+void CoutStatementNode::Interpret(){
+    std::cout << this->expressionNode->Evaluate() << std::endl;
+}
+
 ExpressionNode::ExpressionNode(){
     // MSG("Creating ExpressionNode");
 }
 
 ExpressionNode::~ExpressionNode(){
     // MSG("Destroying ExpressionNode");
-}
-
-int ExpressionNode::Evaluate(){
-    return 0;
 }
 
 IdentifierNode::IdentifierNode(std::string name, SymbolTableClass *symbolTable){
@@ -109,12 +139,19 @@ IdentifierNode::IdentifierNode(std::string name, SymbolTableClass *symbolTable){
 void IdentifierNode::DeclareVariable(){
     this->symbolTable->AddEntry(this->name);
 }
+
 void IdentifierNode::SetValue(int value){
     this->symbolTable->SetValue(this->name, value);
 }
 
 int IdentifierNode::GetIndex(){
     return this->symbolTable->GetIndex(this->name);
+}
+
+int IdentifierNode::Evaluate(){
+    MSG("Evaluating IdentifierNode")
+    MSG("Getting value of " << this->name)
+    return this->symbolTable->GetValue(this->name);
 }
 
 IntegerNode::IntegerNode(int value){
@@ -127,6 +164,7 @@ IntegerNode::~IntegerNode(){
 }
 
 int IntegerNode::Evaluate(){
+    MSG("Evaluating IntegerNode")
     return this->value;
 }
 
@@ -137,8 +175,8 @@ BinaryOperatorNode::BinaryOperatorNode(ExpressionNode *left, ExpressionNode *rig
 }
 
 BinaryOperatorNode::~BinaryOperatorNode(){
-    delete left;
-    delete right;
+    delete this->left;
+    delete this->right;
     // MSG("Destroying BinaryOperatorNode");
 }
 
@@ -151,7 +189,8 @@ PlusNode::~PlusNode(){
 }
 
 int PlusNode::Evaluate(){
-    return left->Evaluate() + right->Evaluate();
+    MSG("Evaluating PlusNode")
+    return this->left->Evaluate() + this->right->Evaluate();
 }
 
 MinusNode::MinusNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
@@ -163,7 +202,7 @@ MinusNode::~MinusNode(){
 }
 
 int MinusNode::Evaluate(){
-    return left->Evaluate() - right->Evaluate();
+    return this->left->Evaluate() - this->right->Evaluate();
 }
 
 TimesNode::TimesNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
@@ -175,7 +214,7 @@ TimesNode::~TimesNode(){
 }
 
 int TimesNode::Evaluate(){
-    return left->Evaluate() * right->Evaluate();
+    return this->left->Evaluate() * this->right->Evaluate();
 }
 
 DivideNode::DivideNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
@@ -187,7 +226,7 @@ DivideNode::~DivideNode(){
 }
 
 int DivideNode::Evaluate(){
-    return left->Evaluate() / right->Evaluate();
+    return this->left->Evaluate() / this->right->Evaluate();
 }
 
 LessNode::LessNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){

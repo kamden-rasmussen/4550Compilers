@@ -22,6 +22,7 @@ class PlusNode;
 class Node{
     public:
         virtual ~Node();
+        virtual void Interpret() = 0;
 };
 
 class StatementNode : public Node{
@@ -35,6 +36,7 @@ class StartNode : public Node{
     public:
         StartNode(ProgramNode *programNode);
         ~StartNode();
+        virtual void Interpret();
     private:
         ProgramNode *programNode;
 };
@@ -43,6 +45,7 @@ class ProgramNode : public Node{
     public:
         ProgramNode(BlockNode *blockNode);
         ~ProgramNode();
+        virtual void Interpret();
     private:
         BlockNode *blockNode;
 };
@@ -51,6 +54,7 @@ class BlockNode : public StatementNode{
     public:
         BlockNode(StatementGroupNode *statementGroupNode);
         ~BlockNode();
+        virtual void Interpret();
     private:
         StatementGroupNode *statementGroupNode;
 };
@@ -60,6 +64,7 @@ class StatementGroupNode : public Node{
         StatementGroupNode();
         ~StatementGroupNode();
         void AddStatement(StatementNode *statementNode);
+        void Interpret();
     private:
         std::vector<StatementNode *> statementNodes;
 };
@@ -68,6 +73,7 @@ class DeclarationStatementNode : public StatementNode{
     public:
         DeclarationStatementNode(IdentifierNode *identifierNode);
         ~DeclarationStatementNode();
+        void Interpret();
     private:
         IdentifierNode *identifierNode;
 };
@@ -76,6 +82,7 @@ class AssignmentStatementNode : public StatementNode{
     public:
         AssignmentStatementNode(IdentifierNode *identifierNode, ExpressionNode *expressionNode);
         ~AssignmentStatementNode();
+        void Interpret();
     private:
         IdentifierNode *identifierNode;
         ExpressionNode *expressionNode;
@@ -85,6 +92,7 @@ class CoutStatementNode : public StatementNode{
     public:
         CoutStatementNode(ExpressionNode *expressionNode);
         ~CoutStatementNode();
+        void Interpret();
     private:
         ExpressionNode *expressionNode;
 };
@@ -93,7 +101,7 @@ class ExpressionNode{
     public:
         ExpressionNode();
         virtual ~ExpressionNode();
-        virtual int Evaluate();
+        virtual int Evaluate() = 0;
 };
 
 class IntegerNode : public ExpressionNode{
@@ -111,6 +119,7 @@ class IdentifierNode : public ExpressionNode{
         void DeclareVariable();
         void SetValue(int value);
         int GetIndex();
+        int Evaluate();
     private:
         SymbolTableClass *symbolTable;
         std::string name;
