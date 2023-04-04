@@ -100,6 +100,16 @@ void testInterpreter(){
     delete start;
 }
 
+void testPrint(){
+    ScannerClass scanner("testPrint.c");
+    SymbolTableClass symbolTable;
+    ParserClass parser(&scanner, &symbolTable);
+    StartNode* start = parser.Start();
+    start->Interpret();
+    MSG("PARSER DONE");
+    delete start;
+}
+
 int main(){
     // testToken();
     // testScanner();
@@ -107,6 +117,7 @@ int main(){
     // testNodes();
     // testParser();
     // testParserWithOutput();
-    testInterpreter();
+    // testInterpreter();
+    testPrint();
     return 0;
 }

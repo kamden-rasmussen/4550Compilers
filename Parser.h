@@ -26,6 +26,7 @@ class ParserClass {
         DeclarationStatementNode* DeclarationStatement();
         AssignmentStatementNode* AssignmentStatement();
         CoutStatementNode* CoutStatement();
+        PrintStatementNode* PrintStatement();
         IfStatementNode* IfStatement();
         WhileStatementNode* WhileStatement();
         IdentifierNode* Identifier();

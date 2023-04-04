@@ -123,6 +123,20 @@ void CoutStatementNode::Interpret(){
     std::cout << this->expressionNode->Evaluate() << std::endl;
 }
 
+PrintStatementNode::PrintStatementNode(ExpressionNode *expressionNode){
+    this->expressionNode = expressionNode;
+    // MSG("Creating PrintStatementNode");
+}
+
+PrintStatementNode::~PrintStatementNode(){
+    delete this->expressionNode;
+    // MSG("Destroying PrintStatementNode");
+}
+
+void PrintStatementNode::Interpret(){
+    std::cout << this->expressionNode->Evaluate() << std::endl;
+}
+
 IfStatementNode::IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode){
     this->expressionNode = expressionNode;
     this->statementNode = statementNode;

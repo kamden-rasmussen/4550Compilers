@@ -84,6 +84,11 @@ StatementNode* ParserClass::Statement() {
         CoutStatementNode* csn = CoutStatement();
         return csn;
     }
+    else if (tt == PRINT_TOKEN) {
+        // MSG("Statement is PrintStatement")
+        PrintStatementNode* psn = PrintStatement();
+        return psn;
+    }
     else if(tt == LEFT_CURLY_TOKEN) {
         // MSG("Statement is Block")
         BlockNode* bn = Block();
@@ -135,6 +140,18 @@ CoutStatementNode* ParserClass::CoutStatement() {
     // MSG("Ending CoutStatement")
     CoutStatementNode* csn = new CoutStatementNode(en);
     return csn;
+}
+
+PrintStatementNode* ParserClass::PrintStatement() {
+    // MSG("Starting PrintStatement")
+    Match(PRINT_TOKEN);
+    Match(LEFT_PAREN_TOKEN);
+    ExpressionNode* en = Expression();
+    Match(RIGHT_PAREN_TOKEN);
+    Match(SEMICOLON_TOKEN);
+    // MSG("Ending PrintStatement")
+    PrintStatementNode* psn = new PrintStatementNode(en);
+    return psn;
 }
 
 IfStatementNode* ParserClass::IfStatement() {

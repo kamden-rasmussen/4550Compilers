@@ -97,6 +97,15 @@ class CoutStatementNode : public StatementNode{
         ExpressionNode *expressionNode;
 };
 
+class PrintStatementNode : public StatementNode{
+    public:
+        PrintStatementNode(ExpressionNode *expressionNode);
+        ~PrintStatementNode();
+        void Interpret();
+    private:
+        ExpressionNode *expressionNode;
+};
+
 class IfStatementNode : public StatementNode{
     public:
         IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode);
