@@ -3,13 +3,14 @@
 using namespace std;
 #include <string>
 #include <iostream>
+#include "Debug.h"
 
 enum TokenType {
     // Reserved Words:
     VOID_TOKEN, MAIN_TOKEN, INT_TOKEN, COUT_TOKEN, PRINT_TOKEN,
     // Relational Operators:
     LESS_TOKEN, LESS_EQUAL_TOKEN, GREATER_TOKEN, GREATER_EQUAL_TOKEN, EQUAL_TOKEN, NOTEQUAL_TOKEN,
-    IF_TOKEN, WHILE_TOKEN, AND_TOKEN, OR_TOKEN,
+    IF_TOKEN, WHILE_TOKEN, AND_TOKEN, OR_TOKEN, ELSE_TOKEN,
     // Other Operators:
     INSERTION_TOKEN, ASSIGNMENT_TOKEN, PLUS_TOKEN, MINUS_TOKEN, TIMES_TOKEN, DIVIDE_TOKEN,
     // Other Characters:
@@ -23,7 +24,7 @@ enum TokenType {
 const string gTokenTypeNames[] = {
     "VOID", "MAIN", "INT", "COUT", "PRINT"
     "LESS", "LESSEQUAL", "GREATER", "GREATEREQUAL", "EQUAL", "NOTEQUAL",
-    "IF", "WHILE", "AND", "OR",
+    "IF", "WHILE", "AND", "OR", "ELSE",
     "INSERTION", "ASSIGNMENT", "PLUS", "MINUS", "TIMES", "DIVIDE", 
     "SEMICOLON", "LEFTPAREN", "RIGHTPAREN", "LEFTCURLY", "RIGHTCURLY",
     "IDENTIFIER", "INTEGER", 

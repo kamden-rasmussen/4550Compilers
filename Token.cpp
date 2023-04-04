@@ -13,6 +13,7 @@ TokenClass::TokenClass(TokenType type, const string & lexeme) {
 
 // TokenType GetTokenType() const { return mType; }
 TokenType TokenClass::GetTokenType() const {
+    // MSG(gTokenTypeNames[mType]);
     return mType;
 }
 
@@ -40,6 +41,8 @@ void TokenClass::CheckReserved() {
         mType = PRINT_TOKEN;
     } else if (mLexeme == "if") {
         mType = IF_TOKEN;
+    } else if (mLexeme == "else") {
+        mType = ELSE_TOKEN;
     } else if (mLexeme == "while") {
         mType = WHILE_TOKEN;
     }

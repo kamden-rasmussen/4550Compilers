@@ -161,8 +161,16 @@ IfStatementNode* ParserClass::IfStatement() {
     ExpressionNode* en = Expression();
     Match(RIGHT_PAREN_TOKEN);
     BlockNode* bn = Block();
-    // MSG("Ending IfStatement")
-    IfStatementNode* isn = new IfStatementNode(en, bn);
+    // peek next token to see if it is an else statement
+
+    if(mScanner->PeekNextToken().GetTokenType() == ELSE_TOKEN) {
+
+        Match(ELSE_TOKEN);
+        BlockNode* bn2 = Block();
+        IfStatementNode* isn = new IfStatementNode(en, bn, bn2);
+        return isn;
+    } 
+    IfStatementNode* isn = new IfStatementNode(en, bn, NULL);
     return isn;
 }
 

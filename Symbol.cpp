@@ -30,6 +30,7 @@ void SymbolTableClass::AddEntry(const std::string &s){
 }
 
 int SymbolTableClass::GetValue(const std::string &s){
+    // MSG("GetValue");
     int index = GetIndex(s);
     if (index != -1)
         return symbolTable[index].mValue;

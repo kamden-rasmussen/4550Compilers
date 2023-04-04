@@ -108,12 +108,14 @@ class PrintStatementNode : public StatementNode{
 
 class IfStatementNode : public StatementNode{
     public:
-        IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode);
+        IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode1, StatementNode *statementNode2);
         ~IfStatementNode();
         void Interpret();
     private:
         ExpressionNode *expressionNode;
-        StatementNode *statementNode;
+        StatementNode *statementNode1;
+        StatementNode *statementNode2;
+
 };
 
 class WhileStatementNode : public StatementNode{

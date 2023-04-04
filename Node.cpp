@@ -137,21 +137,30 @@ void PrintStatementNode::Interpret(){
     std::cout << this->expressionNode->Evaluate() << std::endl;
 }
 
-IfStatementNode::IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode){
+IfStatementNode::IfStatementNode(ExpressionNode *expressionNode, StatementNode *statementNode1, StatementNode *statementNode2){
     this->expressionNode = expressionNode;
-    this->statementNode = statementNode;
+    this->statementNode1 = statementNode1;
+    this->statementNode2 = statementNode2;
     // MSG("Creating IfStatementNode");
 }
 
 IfStatementNode::~IfStatementNode(){
     delete this->expressionNode;
-    delete this->statementNode;
+    delete this->statementNode1;
+    delete this->statementNode2;
     // MSG("Destroying IfStatementNode");
 }
 
 void IfStatementNode::Interpret(){
+    // MSG("Interpreting IfStatementNode")
     if(this->expressionNode->Evaluate() != 0){
-        this->statementNode->Interpret();
+        // MSG("Interpreting IfStatementNode (true)")
+        this->statementNode1->Interpret();
+    } else {
+        if (this->statementNode2 != NULL) {
+            // MSG("Interpreting IfStatementNode (false)")
+            this->statementNode2->Interpret();
+        }
     }
 }
 
