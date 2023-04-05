@@ -120,6 +120,16 @@ void testElse(){
     delete start;
 }
 
+void testMidterm(){
+    ScannerClass scanner("testMidterm.c");
+    SymbolTableClass symbolTable;
+    ParserClass parser(&scanner, &symbolTable);
+    StartNode* start = parser.Start();
+    start->Interpret();
+    MSG("PARSER DONE");
+    delete start;
+}
+
 int main(){
     // testToken();
     // testScanner();
@@ -129,6 +139,7 @@ int main(){
     // testParserWithOutput();
     // testInterpreter();
     // testPrint();
-    testElse();
+    // testElse();
+    testMidterm();
     return 0;
 }

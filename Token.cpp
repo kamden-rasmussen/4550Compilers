@@ -45,6 +45,8 @@ void TokenClass::CheckReserved() {
         mType = ELSE_TOKEN;
     } else if (mLexeme == "while") {
         mType = WHILE_TOKEN;
+    } else if (mLexeme == "and"){
+        mType = AND_TOKEN;
     }
 }
 
