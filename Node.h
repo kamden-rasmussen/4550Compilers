@@ -71,11 +71,12 @@ class StatementGroupNode : public Node{
 
 class DeclarationStatementNode : public StatementNode{
     public:
-        DeclarationStatementNode(IdentifierNode *identifierNode);
+        DeclarationStatementNode(IdentifierNode *identifierNode, ExpressionNode *expressionNode);
         ~DeclarationStatementNode();
         void Interpret();
     private:
         IdentifierNode *identifierNode;
+        ExpressionNode *expressionNode;
 };
 
 class AssignmentStatementNode : public StatementNode{

@@ -114,10 +114,18 @@ DeclarationStatementNode* ParserClass::DeclarationStatement() {
     // MSG("DeclarationStatement Starting")
     Match(INT_TOKEN);
     IdentifierNode* in = Identifier();
-    Match(SEMICOLON_TOKEN);
-    // MSG("DeclarationStatement Ending")
-    DeclarationStatementNode* dsn = new DeclarationStatementNode(in);
-    return dsn;
+    // peek ahead to see if it is an assignment
+    if(mScanner->PeekNextToken().GetTokenType() == ASSIGNMENT_TOKEN) {
+        Match(ASSIGNMENT_TOKEN);
+        ExpressionNode* en = Expression();
+        Match(SEMICOLON_TOKEN);
+        DeclarationStatementNode* dsn = new DeclarationStatementNode(in, en);
+        return dsn;
+    } else {
+        Match(SEMICOLON_TOKEN);
+        DeclarationStatementNode* dsn = new DeclarationStatementNode(in, NULL);
+        return dsn;
+    }
 }
 
 AssignmentStatementNode* ParserClass::AssignmentStatement() {

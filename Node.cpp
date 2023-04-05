@@ -79,18 +79,25 @@ void StatementGroupNode::Interpret(){
     }
 }
 
-DeclarationStatementNode::DeclarationStatementNode(IdentifierNode *identifierNode){
+DeclarationStatementNode::DeclarationStatementNode(IdentifierNode *identifierNode, ExpressionNode *expressionNode){
     this->identifierNode = identifierNode;
+    this->expressionNode = expressionNode;
     // MSG("Creating DeclarationStatementNode");
 }
 
 DeclarationStatementNode::~DeclarationStatementNode(){
     delete this->identifierNode;
+    delete this->expressionNode;
     // MSG("Destroying DeclarationStatementNode");
 }
 
 void DeclarationStatementNode::Interpret(){
-    this->identifierNode->DeclareVariable();
+    if (this->expressionNode != NULL){
+        this->identifierNode->DeclareVariable();
+        this->identifierNode->SetValue(this->expressionNode->Evaluate());
+    } else{
+        this->identifierNode->DeclareVariable();
+    }
 }
 
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode *identifierNode, ExpressionNode *expressionNode){

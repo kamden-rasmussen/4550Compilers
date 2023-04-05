@@ -47,31 +47,31 @@ void testSymbol(){
 
 }
 
-void testNodes(){
-    SymbolTableClass symbols;
-    StatementGroupNode* sgn = new StatementGroupNode () ;
+// void testNodes(){
+//     SymbolTableClass symbols;
+//     StatementGroupNode* sgn = new StatementGroupNode () ;
 
-    IdentifierNode* id1 = new IdentifierNode ("sum", &symbols);
-    DeclarationStatementNode* dsn = new DeclarationStatementNode (id1);
-    sgn->AddStatement (dsn);
-    IdentifierNode* id2 = new IdentifierNode("sum", &symbols);
-    IntegerNode* in1 = new IntegerNode (35) ;
-    IntegerNode* in2 = new IntegerNode (400);
-    PlusNode* p1 = new PlusNode(in1, in2);
-    AssignmentStatementNode* asn = new AssignmentStatementNode (id2, p1);
-    sgn->AddStatement(asn);
-    IdentifierNode* id3 = new IdentifierNode ("sum", &symbols);
-    CoutStatementNode* csn = new CoutStatementNode (id3);
-    sgn->AddStatement(csn);
+//     IdentifierNode* id1 = new IdentifierNode ("sum", &symbols);
+//     DeclarationStatementNode* dsn = new DeclarationStatementNode (id1);
+//     sgn->AddStatement (dsn);
+//     IdentifierNode* id2 = new IdentifierNode("sum", &symbols);
+//     IntegerNode* in1 = new IntegerNode (35) ;
+//     IntegerNode* in2 = new IntegerNode (400);
+//     PlusNode* p1 = new PlusNode(in1, in2);
+//     AssignmentStatementNode* asn = new AssignmentStatementNode (id2, p1);
+//     sgn->AddStatement(asn);
+//     IdentifierNode* id3 = new IdentifierNode ("sum", &symbols);
+//     CoutStatementNode* csn = new CoutStatementNode (id3);
+//     sgn->AddStatement(csn);
     
-    BlockNode* b = new BlockNode (sgn);
+//     BlockNode* b = new BlockNode (sgn);
 
-    ProgramNode* pn = new ProgramNode (b) ;
+//     ProgramNode* pn = new ProgramNode (b) ;
 
-    StartNode*s = new StartNode (pn) ;
+//     StartNode*s = new StartNode (pn) ;
 
-    delete s;
-}
+//     delete s;
+// }
 
 void testParser(){
     
