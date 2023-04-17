@@ -1,8 +1,8 @@
 run: clean main
 	./main
 
-main: main.o token.o scanner.o statemachine.o symbol.o node.o parser.o
-	g++ -o main main.o token.o scanner.o statemachine.o symbol.o node.o parser.o
+main: main.o Token.o Scanner.o StateMachine.o Symbol.o Node.o Parser.o
+	g++ -o main main.o Token.o Scanner.o StateMachine.o Symbol.o Node.o Parser.o
 
 main.o: main.cpp
 	gcc -c main.cpp
@@ -10,20 +10,20 @@ main.o: main.cpp
 clean:
 	rm -f *.o main
 
-token.o: token.cpp
-	gcc -c token.cpp
+token.o: Token.cpp
+	gcc -c Token.cpp
 
-scanner.o: scanner.cpp
-	gcc -c scanner.cpp
+scanner.o: Scanner.cpp
+	gcc -c Scanner.cpp
 
-statemachine.o: statemachine.cpp
-	gcc -c statemachine.cpp
+statemachine.o: StateMachine.cpp
+	gcc -c StateMachine.cpp
 
-symbol.o: symbol.cpp
-	gcc -c symbol.cpp
+symbol.o: Symbol.cpp
+	gcc -c Symbol.cpp
 
-node.o: node.cpp
-	gcc -c node.cpp
+node.o: Node.cpp
+	gcc -c Node.cpp
 
-parser.o: parser.cpp
-	gcc -c parser.cpp
+parser.o: Parser.cpp
+	gcc -c Parser.cpp
