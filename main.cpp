@@ -161,8 +161,8 @@ int main(){
     // testParserWithOutput();
     // testInterpreter();
     // testPrint();
-    // testElse();
+    testElse();
     // testMidterm();
-    testMachineCode();
+    // testMachineCode();
     return 0;
 }

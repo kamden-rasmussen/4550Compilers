@@ -70,8 +70,12 @@ void main()
     inc = inc + 1;
   }
 
-  if (inc == 1000) {
+  int bart;
+  bart = 1000;
+  if (bart == 1000) {
     cout << 1000;
+  } else {
+    print(7);
   }
 
   if (inc < 4) {
