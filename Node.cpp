@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "Debug.h"
+#include <cmath>
 
 Node::~Node(){
 }
@@ -384,6 +385,24 @@ void TimesNode::CodeEvaluate(InstructionsClass &machineCode){
     this->left->CodeEvaluate(machineCode);
     this->right->CodeEvaluate(machineCode);
     machineCode.PopPopMulPush();
+}
+
+ExponentNode::ExponentNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){
+    // MSG("Creating ExponentNode");
+}
+
+ExponentNode::~ExponentNode(){
+    // MSG("Destroying ExponentNode");
+}
+
+int ExponentNode::Evaluate(){
+    return (int)pow(this->left->Evaluate(), this->right->Evaluate());
+}
+
+void ExponentNode::CodeEvaluate(InstructionsClass &machineCode){
+    // this->left->CodeEvaluate(machineCode);
+    // this->right->CodeEvaluate(machineCode);
+    // machineCode.PopPopExpPush();
 }
 
 DivideNode::DivideNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){

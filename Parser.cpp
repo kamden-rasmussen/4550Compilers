@@ -296,6 +296,10 @@ ExpressionNode* ParserClass::TimesDivide() {
             Match(tt);
             current = new DivideNode(current, Factor());
         }
+        else if(tt == EXPONENT_TOKEN) {
+            Match(tt);
+            current = new ExponentNode(current, Factor());
+        }
         else {
             return current;
         }

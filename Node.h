@@ -204,6 +204,14 @@ class TimesNode : public BinaryOperatorNode{
         void CodeEvaluate(InstructionsClass &machineCode);
 };
 
+class ExponentNode : public BinaryOperatorNode{
+    public:
+        ExponentNode(ExpressionNode *left, ExpressionNode *right);
+        ~ExponentNode();
+        int Evaluate();
+        void CodeEvaluate(InstructionsClass &machineCode);
+};
+
 class DivideNode : public BinaryOperatorNode{
     public:
         DivideNode(ExpressionNode *left, ExpressionNode *right);
