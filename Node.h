@@ -99,12 +99,13 @@ class AssignmentStatementNode : public StatementNode{
 
 class CoutStatementNode : public StatementNode{
     public:
-        CoutStatementNode(ExpressionNode *expressionNode);
+        CoutStatementNode(std::vector<ExpressionNode *> expressionNodes);
         ~CoutStatementNode();
+        void AddExpression(ExpressionNode *expressionNode);
         void Interpret();
         void Code(InstructionsClass &machineCode);
     private:
-        ExpressionNode *expressionNode;
+        std::vector<ExpressionNode *> expressionNodes;
 };
 
 class PrintStatementNode : public StatementNode{

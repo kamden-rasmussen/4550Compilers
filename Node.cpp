@@ -149,23 +149,34 @@ void AssignmentStatementNode::Code(InstructionsClass &machineCode){
 
 }
 
-CoutStatementNode::CoutStatementNode(ExpressionNode *expressionNode){
-    this->expressionNode = expressionNode;
+CoutStatementNode::CoutStatementNode(std::vector<ExpressionNode *> expressionNodes){
     // MSG("Creating CoutStatementNode");
+    this->expressionNodes = expressionNodes;
 }
 
 CoutStatementNode::~CoutStatementNode(){
-    delete this->expressionNode;
+    for(int i = 0; i < this->expressionNodes.size(); i++){
+        delete this->expressionNodes[i];
+    }
     // MSG("Destroying CoutStatementNode");
 }
 
 void CoutStatementNode::Interpret(){
-    std::cout << this->expressionNode->Evaluate() << std::endl;
+    for(int i = 0; i < this->expressionNodes.size(); i++){
+        std::cout << this->expressionNodes[i]->Evaluate() << " ";
+    }
+    std::cout << std::endl;
+}
+
+void CoutStatementNode::AddExpression(ExpressionNode *expressionNode){
+    this->expressionNodes.push_back(expressionNode);
 }
 
 void CoutStatementNode::Code(InstructionsClass &machineCode){
-    this->expressionNode->CodeEvaluate(machineCode);
-    machineCode.PopAndWrite();
+    for(int i = 0; i < this->expressionNodes.size(); i++){
+        this->expressionNodes[i]->CodeEvaluate(machineCode);
+        machineCode.PopAndWrite();
+    }
 }
 
 PrintStatementNode::PrintStatementNode(ExpressionNode *expressionNode){

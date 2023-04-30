@@ -196,6 +196,6 @@ int main(){
     // testMidterm();
     // testMachineCode();
     testFinalPrep();
-    // testFinalPrepCode();
+    testFinalPrepCode();
     return 0;
 }

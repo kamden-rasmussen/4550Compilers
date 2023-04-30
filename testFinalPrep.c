@@ -1,8 +1,10 @@
 void main() {
     int x = 100;
+    int y = 2;
     print(x);
-    
-    print(x ** 2);
+
+    // doesnt work with machine code yet
+    // print(x ** 4);
 
     if (1) {
         cout << 1; 
@@ -25,4 +27,6 @@ void main() {
     if(1) {
         cout << 6;
     }
+
+    cout << 7 - 3 << 20;
 }
