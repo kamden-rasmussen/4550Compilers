@@ -95,6 +95,7 @@ StateMachineClass::StateMachineClass(){
     this->mCorrespondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
 
     this->mCorrespondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
+    this->mCorrespondingTokenTypes[PEQUALS_STATE] = PEQUALS_TOKEN;
     this->mCorrespondingTokenTypes[MINUS_STATE] = MINUS_TOKEN;
     this->mCorrespondingTokenTypes[DIVIDE_STATE] = DIVIDE_TOKEN;
     this->mCorrespondingTokenTypes[MULTIPLY_STATE] = TIMES_TOKEN;

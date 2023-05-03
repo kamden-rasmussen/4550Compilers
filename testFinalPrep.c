@@ -7,6 +7,9 @@ void main() {
     // print(x ** 4);
     cout << 3 * 2 ** 3; 
 	cout << 3 ** 2 ** 3;
+
+    x += 1;
+    cout << x;
 	
     if (1) {
         cout << 1; 

@@ -287,6 +287,7 @@ ExpressionNode::~ExpressionNode(){
 }
 
 IdentifierNode::IdentifierNode(std::string name, SymbolTableClass *symbolTable){
+    // MSG("Creating IdentifierNode");
     this->name = name;
     this->symbolTable = symbolTable;
 }
@@ -305,7 +306,7 @@ int IdentifierNode::GetIndex(){
 
 int IdentifierNode::Evaluate(){
     // MSG("Evaluating IdentifierNode")
-    // MSG("Getting value of " << this->name)
+    MSG("Getting value of " << this->name)
     return this->symbolTable->GetValue(this->name);
 }
 
@@ -360,6 +361,30 @@ void PlusNode::CodeEvaluate(InstructionsClass &machineCode){
     this->left->CodeEvaluate(machineCode);
     this->right->CodeEvaluate(machineCode);
     machineCode.PopPopAddPush();
+}
+
+PlusEqualStatementNode::PlusEqualStatementNode(IdentifierNode *left, ExpressionNode *right) : AssignmentStatementNode(left, right){
+    // MSG("Creating PlusEqualStatementNode");
+    identifierNode = left;
+    expressionNode = right;
+}
+
+PlusEqualStatementNode::~PlusEqualStatementNode(){
+    // MSG("Destroying PlusEqualStatementNode");
+}
+
+void PlusEqualStatementNode::Interpret(){
+    // MSG("Interpreting PlusEqualStatementNode")
+    this->identifierNode->SetValue(this->identifierNode->Evaluate() + this->expressionNode->Evaluate());
+
+}
+
+void PlusEqualStatementNode::Code(InstructionsClass &machineCode){
+    // MSG("Code PlusEqualStatementNode")
+    machineCode.PushVariable(this->identifierNode->GetIndex());
+    machineCode.PushValue(this->expressionNode->Evaluate());
+    machineCode.PopPopAddPush();
+    machineCode.PopAndStore(this->identifierNode->GetIndex());
 }
 
 MinusNode::MinusNode(ExpressionNode *left, ExpressionNode *right) : BinaryOperatorNode(left, right){

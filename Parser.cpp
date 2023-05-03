@@ -131,6 +131,14 @@ DeclarationStatementNode* ParserClass::DeclarationStatement() {
 AssignmentStatementNode* ParserClass::AssignmentStatement() {
     // MSG("AssignmentStatement Starting")
     IdentifierNode* in = Identifier();
+    // support +=
+    if (mScanner->PeekNextToken().GetTokenType() == PEQUALS_TOKEN) {
+        Match(PEQUALS_TOKEN);
+        ExpressionNode* en = Expression();
+        Match(SEMICOLON_TOKEN);
+        PlusEqualStatementNode* pen = new PlusEqualStatementNode(in, en);
+        return pen;
+    }
     Match(ASSIGNMENT_TOKEN);
     ExpressionNode* en = Expression();
     Match(SEMICOLON_TOKEN);
@@ -351,7 +359,7 @@ ExpressionNode* ParserClass::Factor() {
 
 TokenClass ParserClass::Match(TokenType expectedType) {
     TokenClass tc = mScanner->GetNextToken();
-    MSG("Matched " << gTokenTypeNames[tc.GetTokenType()] << " with " << gTokenTypeNames[expectedType]);
+    // MSG("Matched " << gTokenTypeNames[tc.GetTokenType()] << " with " << gTokenTypeNames[expectedType]);
     TokenType tt = tc.GetTokenType();
     if(tt != expectedType)
     {

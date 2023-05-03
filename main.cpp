@@ -183,6 +183,37 @@ void testFinalPrepCode(){
 	delete root;
 }
 
+void testFinal(){
+    ScannerClass scanner("testFinal.c");
+    SymbolTableClass symbolTable;
+    ParserClass parser(&scanner, &symbolTable);
+    StartNode* start = parser.Start();
+    start->Interpret();
+    MSG("PARSER DONE");
+    delete start;
+}
+
+void testFinalCode(){
+    ScannerClass scanner("testFinal.c");
+    SymbolTableClass symbolTable;
+    ParserClass parser(&scanner, &symbolTable);
+
+    // Do the parsing, which results in a parse tree.
+    StartNode * root = parser.Start();
+
+    // Create the machine code instructions from the parse tree
+    InstructionsClass machineCode;
+    root->Code(machineCode);
+    machineCode.Finish();
+    // machineCode.PrintAllMachineCodes();
+
+    // Execute the machine code instructions previously created
+    machineCode.Execute();
+
+    // cleanup recursively
+    delete root;
+}
+
 int main(){
     // testToken();
     // testScanner();
@@ -195,7 +226,9 @@ int main(){
     // testElse();
     // testMidterm();
     // testMachineCode();
-    testFinalPrep();
+    // testFinalPrep();
 //    testFinalPrepCode();
+    // testFinal();
+    testFinalCode();
     return 0;
 }

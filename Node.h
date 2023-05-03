@@ -12,6 +12,7 @@ class BlockNode;
 class StatementGroupNode;
 class DeclarationStatementNode;
 class AssignmentStatementNode;
+class PlusEqualsStatementNode;
 class CoutStatementNode;
 class ExpressionNode;
 class IdentifierNode;
@@ -187,6 +188,17 @@ class PlusNode : public BinaryOperatorNode{
         ~PlusNode();
         int Evaluate();
         void CodeEvaluate(InstructionsClass &machineCode);
+};
+
+class PlusEqualStatementNode : public AssignmentStatementNode{
+    public:
+        PlusEqualStatementNode(IdentifierNode *identifierNode, ExpressionNode *expressionNode);
+        ~PlusEqualStatementNode();
+        void Interpret();
+        void Code(InstructionsClass &machineCode);
+    private:
+        IdentifierNode *identifierNode;
+        ExpressionNode *expressionNode;
 };
 
 class MinusNode : public BinaryOperatorNode{
