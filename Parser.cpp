@@ -293,18 +293,28 @@ ExpressionNode* ParserClass::PlusMinus() {
 
 ExpressionNode* ParserClass::TimesDivide() {
 
-    ExpressionNode* current = Factor();
+    ExpressionNode* current = Exponent();
     while(true) {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         if(tt == TIMES_TOKEN) {
             Match(tt);
-            current = new TimesNode(current, Factor());
+            current = new TimesNode(current, Exponent());
         }
         else if(tt == DIVIDE_TOKEN) {
             Match(tt);
-            current = new DivideNode(current, Factor());
+            current = new DivideNode(current, Exponent());
         }
-        else if(tt == EXPONENT_TOKEN) {
+        else {
+            return current;
+        }
+    }
+}
+
+ExpressionNode* ParserClass::Exponent() {
+    ExpressionNode* current = Factor();
+    while(true) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if(tt == EXPONENT_TOKEN) {
             Match(tt);
             current = new ExponentNode(current, Factor());
         }
@@ -341,7 +351,7 @@ ExpressionNode* ParserClass::Factor() {
 
 TokenClass ParserClass::Match(TokenType expectedType) {
     TokenClass tc = mScanner->GetNextToken();
-    // MSG("Matched " << gTokenTypeNames[tc.GetTokenType()] << " with " << gTokenTypeNames[expectedType]);
+    MSG("Matched " << gTokenTypeNames[tc.GetTokenType()] << " with " << gTokenTypeNames[expectedType]);
     TokenType tt = tc.GetTokenType();
     if(tt != expectedType)
     {

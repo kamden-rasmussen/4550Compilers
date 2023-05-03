@@ -5,7 +5,7 @@ void main() {
 
     // doesnt work with machine code yet
     // print(x ** 4);
-
+    cout << 3 * 2 ** 3; 
 	cout << 3 ** 2 ** 3;
 	
     if (1) {
