@@ -306,7 +306,7 @@ int IdentifierNode::GetIndex(){
 
 int IdentifierNode::Evaluate(){
     // MSG("Evaluating IdentifierNode")
-    MSG("Getting value of " << this->name)
+    // MSG("Getting value of " << this->name)
     return this->symbolTable->GetValue(this->name);
 }
 

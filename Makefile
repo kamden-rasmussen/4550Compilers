@@ -8,7 +8,8 @@ main.o: main.cpp
 	gcc -c main.cpp
 
 clean:
-	rm -f *.o main
+	rm -f *.o 
+	rm -f main
 
 token.o: Token.cpp
 	gcc -c Token.cpp

@@ -228,7 +228,7 @@ int main(){
     // testMachineCode();
     // testFinalPrep();
 //    testFinalPrepCode();
-    // testFinal();
-    testFinalCode();
+    testFinal();
+    // testFinalCode();
     return 0;
 }
