@@ -17,6 +17,7 @@ class ParserClass {
         ExpressionNode* And();
         ExpressionNode* PlusMinus();
         ExpressionNode* TimesDivide();
+        ExpressionNode* Exponent();
         ExpressionNode* Factor();
         TokenClass Match(TokenType expected);
         ProgramNode* Program();
@@ -25,6 +26,7 @@ class ParserClass {
         StatementNode* Statement();
         DeclarationStatementNode* DeclarationStatement();
         AssignmentStatementNode* AssignmentStatement();
+        PlusEqualsStatementNode* PlusEqualsStatement();
         CoutStatementNode* CoutStatement();
         PrintStatementNode* PrintStatement();
         IfStatementNode* IfStatement();

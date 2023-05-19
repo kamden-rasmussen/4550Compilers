@@ -131,6 +131,14 @@ DeclarationStatementNode* ParserClass::DeclarationStatement() {
 AssignmentStatementNode* ParserClass::AssignmentStatement() {
     // MSG("AssignmentStatement Starting")
     IdentifierNode* in = Identifier();
+    // support +=
+    if (mScanner->PeekNextToken().GetTokenType() == PEQUALS_TOKEN) {
+        Match(PEQUALS_TOKEN);
+        ExpressionNode* en = Expression();
+        Match(SEMICOLON_TOKEN);
+        PlusEqualStatementNode* pen = new PlusEqualStatementNode(in, en);
+        return pen;
+    }
     Match(ASSIGNMENT_TOKEN);
     ExpressionNode* en = Expression();
     Match(SEMICOLON_TOKEN);
@@ -142,12 +150,20 @@ AssignmentStatementNode* ParserClass::AssignmentStatement() {
 CoutStatementNode* ParserClass::CoutStatement() {
     // MSG("Starting CoutStatement")
     Match(COUT_TOKEN);
-    Match(INSERTION_TOKEN);
-    ExpressionNode* en = Expression();
+    std::vector<ExpressionNode*> expressions;
+    CoutStatementNode* csn = new CoutStatementNode(expressions);
+    while(true) {
+        Match(INSERTION_TOKEN);
+        ExpressionNode* en = Expression();
+        csn->AddExpression(en);
+        if(mScanner->PeekNextToken().GetTokenType() != INSERTION_TOKEN) {
+            break;
+        }
+    }
     Match(SEMICOLON_TOKEN);
     // MSG("Ending CoutStatement")
-    CoutStatementNode* csn = new CoutStatementNode(en);
     return csn;
+    
 }
 
 PrintStatementNode* ParserClass::PrintStatement() {
@@ -285,16 +301,30 @@ ExpressionNode* ParserClass::PlusMinus() {
 
 ExpressionNode* ParserClass::TimesDivide() {
 
-    ExpressionNode* current = Factor();
+    ExpressionNode* current = Exponent();
     while(true) {
         TokenType tt = mScanner->PeekNextToken().GetTokenType();
         if(tt == TIMES_TOKEN) {
             Match(tt);
-            current = new TimesNode(current, Factor());
+            current = new TimesNode(current, Exponent());
         }
         else if(tt == DIVIDE_TOKEN) {
             Match(tt);
-            current = new DivideNode(current, Factor());
+            current = new DivideNode(current, Exponent());
+        }
+        else {
+            return current;
+        }
+    }
+}
+
+ExpressionNode* ParserClass::Exponent() {
+    ExpressionNode* current = Factor();
+    while(true) {
+        TokenType tt = mScanner->PeekNextToken().GetTokenType();
+        if(tt == EXPONENT_TOKEN) {
+            Match(tt);
+            current = new ExponentNode(current, Factor());
         }
         else {
             return current;

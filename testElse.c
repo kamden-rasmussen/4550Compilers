@@ -9,4 +9,11 @@ void main(){
         cout << 0;
     }
     print(500);
+
+    if (a == 2) {
+        cout << 1;
+    } 
+    else {
+        cout << 0;
+    }
 }

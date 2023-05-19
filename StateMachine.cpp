@@ -50,6 +50,7 @@ StateMachineClass::StateMachineClass(){
 
     this->mLegalMoves[START_STATE][MULTIPLY_CHAR] = MULTIPLY_STATE;
     this->mLegalMoves[MULTIPLY_STATE][EQUALS_CHAR] = MULTIPLY_STATE;
+    this->mLegalMoves[MULTIPLY_STATE][MULTIPLY_CHAR] = EXPONENT_STATE;
     this->mLegalMoves[START_STATE][LESS_THEN_CHAR] = LESS_THEN_STATE;
     this->mLegalMoves[LESS_THEN_STATE][EQUALS_CHAR] = LESS_EQUAL_STATE;
     this->mLegalMoves[LESS_THEN_STATE][LESS_THEN_CHAR] = INSERTION_STATE;
@@ -94,9 +95,11 @@ StateMachineClass::StateMachineClass(){
     this->mCorrespondingTokenTypes[ASSIGNMENT_STATE] = ASSIGNMENT_TOKEN;
 
     this->mCorrespondingTokenTypes[PLUS_STATE] = PLUS_TOKEN;
+    this->mCorrespondingTokenTypes[PEQUALS_STATE] = PEQUALS_TOKEN;
     this->mCorrespondingTokenTypes[MINUS_STATE] = MINUS_TOKEN;
     this->mCorrespondingTokenTypes[DIVIDE_STATE] = DIVIDE_TOKEN;
     this->mCorrespondingTokenTypes[MULTIPLY_STATE] = TIMES_TOKEN;
+    this->mCorrespondingTokenTypes[EXPONENT_STATE] = EXPONENT_TOKEN;
 
     this->mCorrespondingTokenTypes[ENDFILE_STATE] = ENDFILE_TOKEN;
  
